@@ -92,6 +92,33 @@ abstract final class PortfolioData {
       route: AppRoutes.skills,
     ),
 
+    PortfolioItem(
+      id: 'rest-api',
+      title: 'REST APIs',
+      subtitle: 'Integration & Networking',
+      type: PortfolioItemType.skill,
+      keywords: ['rest', 'api', 'dio', 'http', 'json', 'integration'],
+      route: AppRoutes.skills,
+    ),
+
+    PortfolioItem(
+      id: 'clean-architecture',
+      title: 'Clean Architecture',
+      subtitle: 'Maintainable Application Design',
+      type: PortfolioItemType.skill,
+      keywords: ['clean architecture', 'solid', 'repository', 'usecase', 'dependency injection'],
+      route: AppRoutes.skills,
+    ),
+
+    PortfolioItem(
+      id: 'android-kotlin',
+      title: 'Android & Kotlin',
+      subtitle: 'Native Mobile Integration',
+      type: PortfolioItemType.skill,
+      keywords: ['android', 'kotlin', 'native', 'mobile', 'integration'],
+      route: AppRoutes.skills,
+    ),
+
     // --------------------
     // PROJECTS
     // --------------------
@@ -99,7 +126,8 @@ abstract final class PortfolioData {
       id: 'sbi-yono',
       title: 'SBI YONO 2.0',
       subtitle: 'Banking & FinTech',
-      description: 'Flutter development across UPI and Bill Payment journeys.',
+      description:
+          'Flutter engineering across high-traffic UPI and Bill Payment journeys, including enhancements, production fixes and complaint experiences.',
       type: PortfolioItemType.project,
       keywords: [
         'sbi',
@@ -123,7 +151,7 @@ abstract final class PortfolioData {
       title: 'Offline POS',
       subtitle: 'Flutter • SQLite',
       description:
-          'Offline point-of-sale application with inventory and billing.',
+          'Offline point-of-sale application with inventory, cart, billing, sales history and export workflows.',
       type: PortfolioItemType.project,
       keywords: [
         'pos',
@@ -134,6 +162,17 @@ abstract final class PortfolioData {
         'inventory',
         'sales',
       ],
+      route: AppRoutes.projects,
+    ),
+
+    PortfolioItem(
+      id: 'music-dj',
+      title: 'Music DJ Studio',
+      subtitle: 'Flutter • Media • Firebase',
+      description:
+          'A local music experience with device scanning, playlists and multi-track DJ mixing experiments.',
+      type: PortfolioItemType.project,
+      keywords: ['music', 'dj', 'flutter', 'firebase', 'media', 'playlist', 'audio'],
       route: AppRoutes.projects,
     ),
 
