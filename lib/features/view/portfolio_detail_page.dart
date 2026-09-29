@@ -163,24 +163,14 @@ class _DetailGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final columns = constraints.maxWidth >= 920
-            ? 2
-            : 1;
-        const gap = 18.0;
-        final width =
-            (constraints.maxWidth - gap * (columns - 1)) / columns;
-
-        return Wrap(
-          spacing: gap,
-          runSpacing: gap,
-          children: [
-            for (final item in items)
-              SizedBox(width: width, child: _DetailCard(item: item)),
-          ],
-        );
-      },
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        for (var index = 0; index < items.length; index++) ...[
+          _DetailCard(item: items[index]),
+          if (index != items.length - 1) const SizedBox(height: 22),
+        ],
+      ],
     );
   }
 }
