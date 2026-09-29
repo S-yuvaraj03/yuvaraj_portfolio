@@ -145,9 +145,9 @@ class _AboutSection extends StatelessWidget {
               ),
               const SizedBox(height: 22),
               FilledButton.icon(
-                onPressed: null,
-                icon: Icon(Icons.arrow_forward_rounded, size: 17),
-                label: Text('Explore my experience'),
+                onPressed: () => context.push('/experience'),
+                icon: const Icon(Icons.arrow_forward_rounded, size: 17),
+                label: const Text('Explore my experience'),
               ),
             ],
           );
