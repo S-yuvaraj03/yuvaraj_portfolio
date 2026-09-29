@@ -23,12 +23,7 @@ class PortfolioShell extends StatelessWidget {
               const Expanded(
                 child: SingleChildScrollView(
                   physics: BouncingScrollPhysics(),
-                  child: Column(
-                    children: [
-                      HeroSection(),
-                      PortfolioSections(),
-                    ],
-                  ),
+                  child: Column(children: [HeroSection(), PortfolioSections()]),
                 ),
               ),
             ],

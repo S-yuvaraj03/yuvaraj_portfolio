@@ -9,7 +9,11 @@ class PortfolioSections extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
-    final horizontal = width < 600 ? 20.0 : width < 1200 ? 48.0 : 88.0;
+    final horizontal = width < 600
+        ? 20.0
+        : width < 1200
+        ? 48.0
+        : 88.0;
 
     return Padding(
       padding: EdgeInsets.fromLTRB(horizontal, 24, horizontal, 72),
@@ -56,8 +60,10 @@ class PortfolioSections extends StatelessWidget {
     );
   }
 
-  static List<PortfolioItem> _itemsOf(PortfolioItemType type) =>
-      PortfolioData.items.where((item) => item.type == type).toList(growable: false);
+  static List<PortfolioItem> _itemsOf(PortfolioItemType type) => PortfolioData
+      .items
+      .where((item) => item.type == type)
+      .toList(growable: false);
 }
 
 class _AboutSection extends StatelessWidget {
@@ -77,9 +83,9 @@ class _AboutSection extends StatelessWidget {
               Text(
                 'I turn complex mobile journeys into clear, dependable experiences.',
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      fontWeight: FontWeight.w800,
-                      height: 1.08,
-                    ),
+                  fontWeight: FontWeight.w800,
+                  height: 1.08,
+                ),
               ),
               const SizedBox(height: 16),
               const Text(
@@ -149,9 +155,9 @@ class _CollectionSection extends StatelessWidget {
         const SizedBox(height: 10),
         Text(
           title,
-          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                fontWeight: FontWeight.w800,
-              ),
+          style: Theme.of(
+            context,
+          ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w800),
         ),
         const SizedBox(height: 10),
         ConstrainedBox(
@@ -170,8 +176,8 @@ class _CollectionSection extends StatelessWidget {
             final columns = constraints.maxWidth >= 1050
                 ? 3
                 : constraints.maxWidth >= 650
-                    ? 2
-                    : 1;
+                ? 2
+                : 1;
             final gap = 16.0;
             final cardWidth =
                 (constraints.maxWidth - (gap * (columns - 1))) / columns;
@@ -181,7 +187,10 @@ class _CollectionSection extends StatelessWidget {
               runSpacing: gap,
               children: [
                 for (final item in items)
-                  SizedBox(width: cardWidth, child: _PortfolioCard(item: item)),
+                  SizedBox(
+                    width: cardWidth,
+                    child: _PortfolioCard(item: item),
+                  ),
               ],
             );
           },
@@ -296,12 +305,12 @@ class _ContactSection extends StatelessWidget {
           Text(
             'Let’s build something useful.',
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  fontWeight: FontWeight.w800,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w800),
           ),
           const SizedBox(height: 12),
-          const ConstrainedBox(
+          ConstrainedBox(
             constraints: BoxConstraints(maxWidth: 620),
             child: Text(
               'I’m interested in Flutter, mobile engineering and software roles where product quality, learning and ownership matter.',
@@ -446,10 +455,7 @@ class _MiniTag extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: const TextStyle(
-          color: AppColors.textSecondary,
-          fontSize: 10,
-        ),
+        style: const TextStyle(color: AppColors.textSecondary, fontSize: 10),
       ),
     );
   }

@@ -10,13 +10,7 @@ enum PortfolioSection {
   contact,
 }
 
-enum DynamicIslandMode {
-  compact,
-  navigation,
-  search,
-  notification,
-  project,
-}
+enum DynamicIslandMode { compact, navigation, search, notification, project }
 
 class PortfolioState extends Equatable {
   const PortfolioState({

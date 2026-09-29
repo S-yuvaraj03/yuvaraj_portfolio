@@ -106,7 +106,13 @@ abstract final class PortfolioData {
       title: 'Clean Architecture',
       subtitle: 'Maintainable Application Design',
       type: PortfolioItemType.skill,
-      keywords: ['clean architecture', 'solid', 'repository', 'usecase', 'dependency injection'],
+      keywords: [
+        'clean architecture',
+        'solid',
+        'repository',
+        'usecase',
+        'dependency injection',
+      ],
       route: AppRoutes.skills,
     ),
 
@@ -172,7 +178,15 @@ abstract final class PortfolioData {
       description:
           'A local music experience with device scanning, playlists and multi-track DJ mixing experiments.',
       type: PortfolioItemType.project,
-      keywords: ['music', 'dj', 'flutter', 'firebase', 'media', 'playlist', 'audio'],
+      keywords: [
+        'music',
+        'dj',
+        'flutter',
+        'firebase',
+        'media',
+        'playlist',
+        'audio',
+      ],
       route: AppRoutes.projects,
     ),
 
