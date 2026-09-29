@@ -38,6 +38,7 @@ class PortfolioBloc extends Bloc<PortfolioEvent, PortfolioState> {
         section: event.section,
         islandMode: DynamicIslandMode.compact,
         clearFocusedItem: true,
+        navigationRequest: state.navigationRequest + 1,
       ),
     );
   }
@@ -53,6 +54,7 @@ class PortfolioBloc extends Bloc<PortfolioEvent, PortfolioState> {
         islandMode: DynamicIslandMode.compact,
         searchQuery: '',
         searchResults: const [],
+        navigationRequest: state.navigationRequest + 1,
       ),
     );
   }
