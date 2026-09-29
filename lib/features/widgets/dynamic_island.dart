@@ -527,26 +527,13 @@ class _SearchResultTile extends StatelessWidget {
         final route = item.route;
         if (route == null) return;
 
-        final section = _sectionForItemType(item.type);
-
         context.read<PortfolioBloc>().add(
-          PortfolioItemSelected(section: section, itemId: item.id),
+          const DynamicIslandModeChanged(DynamicIslandMode.compact),
         );
         context.go(route);
       },
     );
   }
-}
-
-PortfolioSection _sectionForItemType(PortfolioItemType type) {
-  return switch (type) {
-    PortfolioItemType.skill => PortfolioSection.skills,
-    PortfolioItemType.project => PortfolioSection.projects,
-    PortfolioItemType.experience => PortfolioSection.experience,
-    PortfolioItemType.education => PortfolioSection.education,
-    PortfolioItemType.softSkill => PortfolioSection.about,
-    PortfolioItemType.social => PortfolioSection.contact,
-  };
 }
 
 class _SearchResultIcon extends StatelessWidget {
