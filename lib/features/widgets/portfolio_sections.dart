@@ -241,7 +241,8 @@ class _ExperienceSection extends StatelessWidget {
               const _Milestone(
                 label: '2022',
                 title: 'Joined Tata Consultancy Services',
-                body: 'Moved from IT support into mobile product engineering',
+                body:
+                    'Building production Flutter applications for enterprise mobile banking.',
               ),
               const _TimelineConnector(),
               const _Milestone(
