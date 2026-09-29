@@ -70,7 +70,7 @@ class PortfolioSections extends StatelessWidget {
           const SizedBox(height: 72),
           KeyedSubtree(
             key: experienceKey,
-            child: _CollectionSection(
+            child: _ExperienceSection(
             eyebrow: 'EXPERIENCE',
             title: 'Building where reliability matters',
             description:
@@ -127,12 +127,27 @@ class _AboutSection extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               const Text(
-                'My work combines Flutter engineering, clean architecture, API integration and production debugging. I enjoy owning a problem end-to-end, collaborating closely with stakeholders, and leaving the codebase easier to change than I found it.',
+                'I’m a mobile engineer focused on production Flutter systems, with hands-on experience across banking and payment journeys. At TCS, I work on SBI YONO 2.0 where feature delivery means understanding the business rule, API contract, transaction state and regression risk—not just building the screen.',
                 style: TextStyle(
                   color: AppColors.textSecondary,
                   height: 1.65,
                   fontSize: 15,
                 ),
+              ),
+              const SizedBox(height: 18),
+              const Text(
+                'I’m strongest when a problem needs ownership: tracing production issues, coordinating across teams, reviewing implementation choices and turning complex requirements into maintainable mobile flows.',
+                style: TextStyle(
+                  color: AppColors.textSecondary,
+                  height: 1.65,
+                  fontSize: 15,
+                ),
+              ),
+              const SizedBox(height: 22),
+              FilledButton.icon(
+                onPressed: null,
+                icon: Icon(Icons.arrow_forward_rounded, size: 17),
+                label: Text('Explore my experience'),
               ),
             ],
           );
@@ -169,6 +184,102 @@ class _AboutSection extends StatelessWidget {
       ),
     );
   }
+}
+
+class _ExperienceSection extends StatelessWidget {
+  const _ExperienceSection({
+    required this.eyebrow,
+    required this.title,
+    required this.description,
+    required this.items,
+    required this.itemKeyBuilder,
+  });
+
+  final String eyebrow;
+  final String title;
+  final String description;
+  final List<PortfolioItem> items;
+  final GlobalKey Function(String id) itemKeyBuilder;
+
+  @override
+  Widget build(BuildContext context) {
+    final item = items.first;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _Eyebrow(eyebrow),
+        const SizedBox(height: 10),
+        Text(title, style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w800)),
+        const SizedBox(height: 10),
+        Text(description, style: const TextStyle(color: AppColors.textSecondary, height: 1.55)),
+        const SizedBox(height: 30),
+        Container(
+          key: itemKeyBuilder(item.id),
+          padding: const EdgeInsets.only(left: 24),
+          decoration: const BoxDecoration(
+            border: Border(left: BorderSide(color: AppColors.primary, width: 2)),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const _Milestone(label: 'NOW', title: 'Flutter Developer', body: 'Production mobile engineering • SBI YONO 2.0'),
+              const _TimelineConnector(),
+              const _Milestone(label: '2022', title: 'Joined Tata Consultancy Services', body: 'Moved from IT support into mobile product engineering'),
+              const _TimelineConnector(),
+              const _Milestone(label: 'GROWTH', title: 'Payments, ownership & production', body: 'UPI • BillPay • API integration • debugging • code review'),
+              const SizedBox(height: 20),
+              OutlinedButton.icon(
+                onPressed: () => context.push(item.route!),
+                icon: const Icon(Icons.arrow_forward_rounded, size: 17),
+                label: const Text('Read my TCS experience'),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _Milestone extends StatelessWidget {
+  const _Milestone({required this.label, required this.title, required this.body});
+  final String label;
+  final String title;
+  final String body;
+  @override
+  Widget build(BuildContext context) => Row(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Transform.translate(
+        offset: const Offset(-34, 2),
+        child: Container(
+          width: 18, height: 18,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: AppColors.background,
+            border: Border.all(color: AppColors.secondary, width: 3),
+            boxShadow: const [BoxShadow(color: Color(0x6600D9FF), blurRadius: 12)],
+          ),
+        ),
+      ),
+      Expanded(child: Transform.translate(
+        offset: const Offset(-18, 0),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text(label, style: const TextStyle(color: AppColors.secondary, fontSize: 10, fontWeight: FontWeight.w800, letterSpacing: 1.4)),
+          const SizedBox(height: 5),
+          Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800)),
+          const SizedBox(height: 5),
+          Text(body, style: const TextStyle(color: AppColors.textSecondary, height: 1.45)),
+        ]),
+      )),
+    ],
+  );
+}
+
+class _TimelineConnector extends StatelessWidget {
+  const _TimelineConnector();
+  @override
+  Widget build(BuildContext context) => const SizedBox(height: 30);
 }
 
 class _CollectionSection extends StatelessWidget {
@@ -396,7 +507,7 @@ class _ContactSection extends StatelessWidget {
               _Pill('Full-stack growth'),
             ],
           ),
-          const SizedBox(height: 22),
+          const SizedBox(height: 24),
           Wrap(
             alignment: WrapAlignment.center,
             spacing: 10,
