@@ -757,37 +757,6 @@ class _ContactRow extends StatelessWidget {
   }
 }
 
-class _TypeIcon extends StatelessWidget {
-  const _TypeIcon({required this.type});
-
-  final PortfolioItemType type;
-
-  @override
-  Widget build(BuildContext context) {
-    final icon = switch (type) {
-      PortfolioItemType.skill => Icons.bolt_rounded,
-      PortfolioItemType.project => Icons.rocket_launch_rounded,
-      PortfolioItemType.experience => Icons.work_rounded,
-      PortfolioItemType.education => Icons.school_rounded,
-      PortfolioItemType.softSkill => Icons.psychology_rounded,
-      PortfolioItemType.social => Icons.link_rounded,
-    };
-
-    return Container(
-      width: 44,
-      height: 44,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [AppColors.primary, AppColors.secondary],
-        ),
-        borderRadius: BorderRadius.circular(14),
-      ),
-      child: Icon(icon, color: Colors.white, size: 21),
-    );
-  }
-}
-
 class _Tag extends StatelessWidget {
   const _Tag(this.label);
 
