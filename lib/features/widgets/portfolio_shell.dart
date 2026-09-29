@@ -3,6 +3,7 @@ import 'package:yuvaraj_portfolio/features/widgets/hero/hero_section.dart';
 
 import 'dynamic_island.dart';
 import 'galaxy_background.dart';
+import 'portfolio_sections.dart';
 
 class PortfolioShell extends StatelessWidget {
   const PortfolioShell({super.key});
@@ -12,7 +13,6 @@ class PortfolioShell extends StatelessWidget {
     return Stack(
       children: [
         const Positioned.fill(child: GalaxyBackground()),
-
         SafeArea(
           child: Column(
             children: [
@@ -20,9 +20,16 @@ class PortfolioShell extends StatelessWidget {
                 padding: EdgeInsets.only(top: 16),
                 child: DynamicIsland(),
               ),
-
               const Expanded(
-                child: SingleChildScrollView(child: HeroSection()),
+                child: SingleChildScrollView(
+                  physics: BouncingScrollPhysics(),
+                  child: Column(
+                    children: [
+                      HeroSection(),
+                      PortfolioSections(),
+                    ],
+                  ),
+                ),
               ),
             ],
           ),
@@ -31,16 +38,3 @@ class PortfolioShell extends StatelessWidget {
     );
   }
 }
-
-// class _PortfolioPlaceholder extends StatelessWidget {
-//   const _PortfolioPlaceholder({required this.title});
-
-//   final String title;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Center(
-//       child: Text(title, style: Theme.of(context).textTheme.headlineLarge),
-//     );
-//   }
-// }
