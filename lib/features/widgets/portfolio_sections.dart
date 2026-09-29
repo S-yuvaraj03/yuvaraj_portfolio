@@ -3,6 +3,10 @@ import 'package:go_router/go_router.dart';
 import 'package:yuvaraj_portfolio/app/theme/app_colors.dart';
 import 'package:yuvaraj_portfolio/data/models/portfolio_item.dart';
 import 'package:yuvaraj_portfolio/data/portfolio/portfolio_data.dart';
+import 'package:yuvaraj_portfolio/data/portfolio/portfolio_image_data.dart';
+import 'package:yuvaraj_portfolio/data/portfolio/contact_data.dart';
+import 'package:yuvaraj_portfolio/core/widgets/cached_portfolio_logo.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PortfolioSections extends StatelessWidget {
   const PortfolioSections({
@@ -286,7 +290,7 @@ class _PortfolioCardState extends State<_PortfolioCard> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _TypeIcon(type: item.type),
+            _CardIdentity(item: item),
             const SizedBox(height: 18),
             Text(
               item.title,
@@ -392,11 +396,32 @@ class _ContactSection extends StatelessWidget {
               _Pill('Full-stack growth'),
             ],
           ),
-          const SizedBox(height: 18),
-          const Text(
-            'Contact and social links can be added from the portfolio data configuration.',
-            textAlign: TextAlign.center,
-            style: TextStyle(color: AppColors.textSecondary, fontSize: 12),
+          const SizedBox(height: 22),
+          Wrap(
+            alignment: WrapAlignment.center,
+            spacing: 10,
+            runSpacing: 10,
+            children: [
+              _ContactAction(
+                icon: Icons.mail_outline_rounded,
+                label: ContactData.email,
+                uri: 'mailto:${ContactData.email}',
+              ),
+              _ContactAction(
+                icon: Icons.work_outline_rounded,
+                label: 'LinkedIn',
+                uri: ContactData.linkedIn,
+              ),
+              _ContactAction(
+                icon: Icons.code_rounded,
+                label: 'GitHub',
+                uri: ContactData.github,
+              ),
+              const _ContactAction(
+                icon: Icons.location_on_outlined,
+                label: ContactData.location,
+              ),
+            ],
           ),
         ],
       ),
@@ -426,6 +451,77 @@ class _GlassPanel extends StatelessWidget {
         ],
       ),
       child: child,
+    );
+  }
+}
+
+class _CardIdentity extends StatelessWidget {
+  const _CardIdentity({required this.item});
+
+  final PortfolioItem item;
+
+  @override
+  Widget build(BuildContext context) {
+    final fallback = switch (item.type) {
+      PortfolioItemType.skill => Icons.bolt_rounded,
+      PortfolioItemType.project => Icons.rocket_launch_rounded,
+      PortfolioItemType.experience => Icons.work_rounded,
+      PortfolioItemType.education => Icons.school_rounded,
+      PortfolioItemType.softSkill => Icons.psychology_rounded,
+      PortfolioItemType.social => Icons.link_rounded,
+    };
+    final imageUrl =
+        item.type == PortfolioItemType.skill ? PortfolioImageData.skill(item.id) : null;
+
+    return Container(
+      width: 52,
+      height: 52,
+      padding: const EdgeInsets.all(9),
+      decoration: BoxDecoration(
+        color: AppColors.surfaceLight.withValues(alpha: .92),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: CachedPortfolioLogo(
+        url: imageUrl,
+        fallback: fallback,
+        size: 34,
+      ),
+    );
+  }
+}
+
+class _ContactAction extends StatelessWidget {
+  const _ContactAction({
+    required this.icon,
+    required this.label,
+    this.uri,
+  });
+
+  final IconData icon;
+  final String label;
+  final String? uri;
+
+  @override
+  Widget build(BuildContext context) {
+    return ActionChip(
+      avatar: Icon(icon, size: 16, color: AppColors.secondary),
+      label: Text(label),
+      onPressed: uri == null
+          ? null
+          : () async {
+              final target = Uri.parse(uri!);
+              if (await canLaunchUrl(target)) {
+                await launchUrl(target);
+              }
+            },
+      backgroundColor: AppColors.surfaceLight.withValues(alpha: .86),
+      side: const BorderSide(color: AppColors.border),
+      labelStyle: const TextStyle(
+        color: AppColors.textPrimary,
+        fontSize: 11,
+        fontWeight: FontWeight.w600,
+      ),
     );
   }
 }
