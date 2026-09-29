@@ -43,19 +43,20 @@ class PortfolioState extends Equatable {
       islandMode: islandMode ?? this.islandMode,
       searchQuery: searchQuery ?? this.searchQuery,
       searchResults: searchResults ?? this.searchResults,
-      focusedItemId:
-          clearFocusedItem ? null : focusedItemId ?? this.focusedItemId,
+      focusedItemId: clearFocusedItem
+          ? null
+          : focusedItemId ?? this.focusedItemId,
       navigationRequest: navigationRequest ?? this.navigationRequest,
     );
   }
 
   @override
   List<Object?> get props => [
-        section,
-        islandMode,
-        searchQuery,
-        searchResults,
-        focusedItemId,
-        navigationRequest,
-      ];
+    section,
+    islandMode,
+    searchQuery,
+    searchResults,
+    focusedItemId,
+    navigationRequest,
+  ];
 }

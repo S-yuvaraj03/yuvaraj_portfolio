@@ -26,10 +26,7 @@ final class PortfolioSectionChanged extends PortfolioEvent {
 }
 
 final class PortfolioItemSelected extends PortfolioEvent {
-  const PortfolioItemSelected({
-    required this.section,
-    required this.itemId,
-  });
+  const PortfolioItemSelected({required this.section, required this.itemId});
 
   final PortfolioSection section;
   final String itemId;

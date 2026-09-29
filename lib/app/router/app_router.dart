@@ -11,21 +11,18 @@ abstract final class AppRouter {
       GoRoute(path: AppRoutes.home, builder: (_, _) => const PortfolioPage()),
       GoRoute(
         path: AppRoutes.about,
-        builder: (_, _) => const PortfolioDetailPage(
-          section: PortfolioDetailSection.about,
-        ),
+        builder: (_, _) =>
+            const PortfolioDetailPage(section: PortfolioDetailSection.about),
       ),
       GoRoute(
         path: AppRoutes.skills,
-        builder: (_, _) => const PortfolioDetailPage(
-          section: PortfolioDetailSection.skills,
-        ),
+        builder: (_, _) =>
+            const PortfolioDetailPage(section: PortfolioDetailSection.skills),
       ),
       GoRoute(
         path: AppRoutes.projects,
-        builder: (_, _) => const PortfolioDetailPage(
-          section: PortfolioDetailSection.projects,
-        ),
+        builder: (_, _) =>
+            const PortfolioDetailPage(section: PortfolioDetailSection.projects),
       ),
       GoRoute(
         path: AppRoutes.experience,
@@ -41,9 +38,8 @@ abstract final class AppRouter {
       ),
       GoRoute(
         path: AppRoutes.contact,
-        builder: (_, _) => const PortfolioDetailPage(
-          section: PortfolioDetailSection.contact,
-        ),
+        builder: (_, _) =>
+            const PortfolioDetailPage(section: PortfolioDetailSection.contact),
       ),
     ],
   );

@@ -47,49 +47,49 @@ class PortfolioSections extends StatelessWidget {
           KeyedSubtree(
             key: skillsKey,
             child: _CollectionSection(
-            eyebrow: 'TOOLKIT',
-            title: 'Skills that ship products',
-            description:
-                'A mobile-first toolkit spanning Flutter architecture, state management, APIs, databases and delivery workflows.',
-            items: _itemsOf(PortfolioItemType.skill),
-            itemKeyBuilder: itemKeyBuilder,
-          ),
+              eyebrow: 'TOOLKIT',
+              title: 'Skills that ship products',
+              description:
+                  'A mobile-first toolkit spanning Flutter architecture, state management, APIs, databases and delivery workflows.',
+              items: _itemsOf(PortfolioItemType.skill),
+              itemKeyBuilder: itemKeyBuilder,
+            ),
           ),
           const SizedBox(height: 72),
           KeyedSubtree(
             key: projectsKey,
             child: _CollectionSection(
-            eyebrow: 'SELECTED WORK',
-            title: 'Projects built around real problems',
-            description:
-                'Production banking work and hands-on products focused on reliability, offline capability and maintainable Flutter code.',
-            items: _itemsOf(PortfolioItemType.project),
-            itemKeyBuilder: itemKeyBuilder,
-          ),
+              eyebrow: 'SELECTED WORK',
+              title: 'Projects built around real problems',
+              description:
+                  'Production banking work and hands-on products focused on reliability, offline capability and maintainable Flutter code.',
+              items: _itemsOf(PortfolioItemType.project),
+              itemKeyBuilder: itemKeyBuilder,
+            ),
           ),
           const SizedBox(height: 72),
           KeyedSubtree(
             key: experienceKey,
             child: _ExperienceSection(
-            eyebrow: 'EXPERIENCE',
-            title: 'Building where reliability matters',
-            description:
-                'Experience collaborating across product, design, backend and client teams while owning delivery and production debugging.',
-            items: _itemsOf(PortfolioItemType.experience),
-            itemKeyBuilder: itemKeyBuilder,
-          ),
+              eyebrow: 'EXPERIENCE',
+              title: 'Building where reliability matters',
+              description:
+                  'Experience collaborating across product, design, backend and client teams while owning delivery and production debugging.',
+              items: _itemsOf(PortfolioItemType.experience),
+              itemKeyBuilder: itemKeyBuilder,
+            ),
           ),
           const SizedBox(height: 72),
           KeyedSubtree(
             key: educationKey,
             child: _CollectionSection(
-            eyebrow: 'EDUCATION',
-            title: 'Learning beyond the codebase',
-            description:
-                'Formal education alongside continuous hands-on learning in mobile, backend and software architecture.',
-            items: _itemsOf(PortfolioItemType.education),
-            itemKeyBuilder: itemKeyBuilder,
-          ),
+              eyebrow: 'EDUCATION',
+              title: 'Learning beyond the codebase',
+              description:
+                  'Formal education alongside continuous hands-on learning in mobile, backend and software architecture.',
+              items: _itemsOf(PortfolioItemType.education),
+              itemKeyBuilder: itemKeyBuilder,
+            ),
           ),
           const SizedBox(height: 72),
           KeyedSubtree(key: contactKey, child: const _ContactSection()),
@@ -209,24 +209,47 @@ class _ExperienceSection extends StatelessWidget {
       children: [
         _Eyebrow(eyebrow),
         const SizedBox(height: 10),
-        Text(title, style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w800)),
+        Text(
+          title,
+          style: Theme.of(
+            context,
+          ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w800),
+        ),
         const SizedBox(height: 10),
-        Text(description, style: const TextStyle(color: AppColors.textSecondary, height: 1.55)),
+        Text(
+          description,
+          style: const TextStyle(color: AppColors.textSecondary, height: 1.55),
+        ),
         const SizedBox(height: 30),
         Container(
           key: itemKeyBuilder(item.id),
           padding: const EdgeInsets.only(left: 24),
           decoration: const BoxDecoration(
-            border: Border(left: BorderSide(color: AppColors.primary, width: 2)),
+            border: Border(
+              left: BorderSide(color: AppColors.primary, width: 2),
+            ),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const _Milestone(label: 'NOW', title: 'Flutter Developer', body: 'Production mobile engineering • SBI YONO 2.0'),
+              const _Milestone(
+                label: 'NOW',
+                title: 'Flutter Developer',
+                body: 'Production mobile engineering • SBI YONO 2.0',
+              ),
               const _TimelineConnector(),
-              const _Milestone(label: '2022', title: 'Joined Tata Consultancy Services', body: 'Moved from IT support into mobile product engineering'),
+              const _Milestone(
+                label: '2022',
+                title: 'Joined Tata Consultancy Services',
+                body: 'Moved from IT support into mobile product engineering',
+              ),
               const _TimelineConnector(),
-              const _Milestone(label: 'GROWTH', title: 'Payments, ownership & production', body: 'UPI • BillPay • API integration • debugging • code review'),
+              const _Milestone(
+                label: 'GROWTH',
+                title: 'Payments, ownership & production',
+                body:
+                    'UPI • BillPay • API integration • debugging • code review',
+              ),
               const SizedBox(height: 20),
               OutlinedButton.icon(
                 onPressed: () => context.push(item.route!),
@@ -242,7 +265,11 @@ class _ExperienceSection extends StatelessWidget {
 }
 
 class _Milestone extends StatelessWidget {
-  const _Milestone({required this.label, required this.title, required this.body});
+  const _Milestone({
+    required this.label,
+    required this.title,
+    required this.body,
+  });
   final String label;
   final String title;
   final String body;
@@ -253,25 +280,53 @@ class _Milestone extends StatelessWidget {
       Transform.translate(
         offset: const Offset(-34, 2),
         child: Container(
-          width: 18, height: 18,
+          width: 18,
+          height: 18,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: AppColors.background,
             border: Border.all(color: AppColors.secondary, width: 3),
-            boxShadow: const [BoxShadow(color: Color(0x6600D9FF), blurRadius: 12)],
+            boxShadow: const [
+              BoxShadow(color: Color(0x6600D9FF), blurRadius: 12),
+            ],
           ),
         ),
       ),
-      Expanded(child: Transform.translate(
-        offset: const Offset(-18, 0),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text(label, style: const TextStyle(color: AppColors.secondary, fontSize: 10, fontWeight: FontWeight.w800, letterSpacing: 1.4)),
-          const SizedBox(height: 5),
-          Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800)),
-          const SizedBox(height: 5),
-          Text(body, style: const TextStyle(color: AppColors.textSecondary, height: 1.45)),
-        ]),
-      )),
+      Expanded(
+        child: Transform.translate(
+          offset: const Offset(-18, 0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                label,
+                style: const TextStyle(
+                  color: AppColors.secondary,
+                  fontSize: 10,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: 1.4,
+                ),
+              ),
+              const SizedBox(height: 5),
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+              const SizedBox(height: 5),
+              Text(
+                body,
+                style: const TextStyle(
+                  color: AppColors.textSecondary,
+                  height: 1.45,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     ],
   );
 }
@@ -375,90 +430,93 @@ class _PortfolioCardState extends State<_PortfolioCard> {
         borderRadius: BorderRadius.circular(24),
         onTap: item.route == null ? null : () => context.push(item.route!),
         child: AnimatedContainer(
-        duration: const Duration(milliseconds: 180),
-        transform: Matrix4.translationValues(0, _hovered ? -5 : 0, 0),
-        padding: const EdgeInsets.all(22),
-        decoration: BoxDecoration(
-          color: _hovered
-              ? AppColors.surfaceLight.withValues(alpha: 0.92)
-              : AppColors.surface.withValues(alpha: 0.78),
-          borderRadius: BorderRadius.circular(24),
-          border: Border.all(
+          duration: const Duration(milliseconds: 180),
+          transform: Matrix4.translationValues(0, _hovered ? -5 : 0, 0),
+          padding: const EdgeInsets.all(22),
+          decoration: BoxDecoration(
             color: _hovered
-                ? AppColors.secondary.withValues(alpha: 0.38)
-                : AppColors.border,
+                ? AppColors.surfaceLight.withValues(alpha: 0.92)
+                : AppColors.surface.withValues(alpha: 0.78),
+            borderRadius: BorderRadius.circular(24),
+            border: Border.all(
+              color: _hovered
+                  ? AppColors.secondary.withValues(alpha: 0.38)
+                  : AppColors.border,
+            ),
+            boxShadow: _hovered
+                ? const [
+                    BoxShadow(
+                      blurRadius: 28,
+                      color: Color(0x2200D9FF),
+                      offset: Offset(0, 10),
+                    ),
+                  ]
+                : const [],
           ),
-          boxShadow: _hovered
-              ? const [
-                  BoxShadow(
-                    blurRadius: 28,
-                    color: Color(0x2200D9FF),
-                    offset: Offset(0, 10),
-                  ),
-                ]
-              : const [],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _CardIdentity(item: item),
-            const SizedBox(height: 18),
-            Text(
-              item.title,
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
-            ),
-            const SizedBox(height: 7),
-            Text(
-              item.subtitle,
-              style: const TextStyle(
-                color: AppColors.secondary,
-                fontWeight: FontWeight.w600,
-                fontSize: 12,
-              ),
-            ),
-            if (item.description != null) ...[
-              const SizedBox(height: 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _CardIdentity(item: item),
+              const SizedBox(height: 18),
               Text(
-                item.description!,
+                item.title,
                 style: const TextStyle(
-                  color: AppColors.textSecondary,
-                  height: 1.5,
-                  fontSize: 13,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w800,
                 ),
               ),
-            ],
-            const SizedBox(height: 16),
-            Wrap(
-              spacing: 7,
-              runSpacing: 7,
-              children: item.keywords
-                  .take(5)
-                  .map((keyword) => _MiniTag(keyword))
-                  .toList(growable: false),
-            ),
-            const SizedBox(height: 16),
-            Row(
-              children: [
-                const Text(
-                  'Read details',
-                  style: TextStyle(
-                    color: AppColors.textPrimary,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
-                  ),
+              const SizedBox(height: 7),
+              Text(
+                item.subtitle,
+                style: const TextStyle(
+                  color: AppColors.secondary,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 12,
                 ),
-                const SizedBox(width: 6),
-                Icon(
-                  Icons.arrow_forward_rounded,
-                  size: 16,
-                  color: _hovered
-                      ? AppColors.secondary
-                      : AppColors.textSecondary,
+              ),
+              if (item.description != null) ...[
+                const SizedBox(height: 12),
+                Text(
+                  item.description!,
+                  style: const TextStyle(
+                    color: AppColors.textSecondary,
+                    height: 1.5,
+                    fontSize: 13,
+                  ),
                 ),
               ],
-            ),
-          ],
-        ),
+              const SizedBox(height: 16),
+              Wrap(
+                spacing: 7,
+                runSpacing: 7,
+                children: item.keywords
+                    .take(5)
+                    .map((keyword) => _MiniTag(keyword))
+                    .toList(growable: false),
+              ),
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  const Text(
+                    'Read details',
+                    style: TextStyle(
+                      color: AppColors.textPrimary,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const SizedBox(width: 6),
+                  Icon(
+                    Icons.arrow_forward_rounded,
+                    size: 16,
+                    color: _hovered
+                        ? AppColors.secondary
+                        : AppColors.textSecondary,
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -528,9 +586,15 @@ class _ContactSection extends StatelessWidget {
                 label: 'GitHub',
                 uri: ContactData.github,
               ),
-              const _ContactAction(
+              _ContactAction(
+                icon: Icons.call,
+                label: '+91 7401003208',
+                uri: '',
+              ),
+              _ContactAction(
                 icon: Icons.location_on_outlined,
                 label: ContactData.location,
+                uri: '',
               ),
             ],
           ),
@@ -581,8 +645,9 @@ class _CardIdentity extends StatelessWidget {
       PortfolioItemType.softSkill => Icons.psychology_rounded,
       PortfolioItemType.social => Icons.link_rounded,
     };
-    final imageUrl =
-        item.type == PortfolioItemType.skill ? PortfolioImageData.skill(item.id) : null;
+    final imageUrl = item.type == PortfolioItemType.skill
+        ? PortfolioImageData.skill(item.id)
+        : null;
 
     return Container(
       width: 52,
@@ -593,21 +658,13 @@ class _CardIdentity extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: AppColors.border),
       ),
-      child: CachedPortfolioLogo(
-        url: imageUrl,
-        fallback: fallback,
-        size: 34,
-      ),
+      child: CachedPortfolioLogo(url: imageUrl, fallback: fallback, size: 34),
     );
   }
 }
 
 class _ContactAction extends StatelessWidget {
-  const _ContactAction({
-    required this.icon,
-    required this.label,
-    this.uri,
-  });
+  const _ContactAction({required this.icon, required this.label, this.uri});
 
   final IconData icon;
   final String label;
