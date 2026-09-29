@@ -530,7 +530,7 @@ class _SearchResultTile extends StatelessWidget {
         context.read<PortfolioBloc>().add(
           const DynamicIslandModeChanged(DynamicIslandMode.compact),
         );
-        context.go(route);
+        context.push(route);
       },
     );
   }
