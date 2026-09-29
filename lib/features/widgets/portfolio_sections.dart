@@ -119,7 +119,7 @@ class _AboutSection extends StatelessWidget {
               const _Eyebrow('ABOUT'),
               const SizedBox(height: 12),
               Text(
-                'I turn complex mobile journeys into clear, dependable experiences.',
+                'Building Reliable Mobile Experiences for Complex, Real-World Systems.',
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                   fontWeight: FontWeight.w800,
                   height: 1.08,
