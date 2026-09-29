@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:yuvaraj_portfolio/app/theme/app_colors.dart';
 import 'package:yuvaraj_portfolio/data/models/portfolio_item.dart';
 import 'package:yuvaraj_portfolio/data/portfolio/portfolio_data.dart';
@@ -255,7 +256,10 @@ class _PortfolioCardState extends State<_PortfolioCard> {
     return MouseRegion(
       onEnter: (_) => setState(() => _hovered = true),
       onExit: (_) => setState(() => _hovered = false),
-      child: AnimatedContainer(
+      child: InkWell(
+        borderRadius: BorderRadius.circular(24),
+        onTap: item.route == null ? null : () => context.push(item.route!),
+        child: AnimatedContainer(
         duration: const Duration(milliseconds: 180),
         transform: Matrix4.translationValues(0, _hovered ? -5 : 0, 0),
         padding: const EdgeInsets.all(22),
@@ -317,7 +321,29 @@ class _PortfolioCardState extends State<_PortfolioCard> {
                   .map((keyword) => _MiniTag(keyword))
                   .toList(growable: false),
             ),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                const Text(
+                  'Read details',
+                  style: TextStyle(
+                    color: AppColors.textPrimary,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const SizedBox(width: 6),
+                Icon(
+                  Icons.arrow_forward_rounded,
+                  size: 16,
+                  color: _hovered
+                      ? AppColors.secondary
+                      : AppColors.textSecondary,
+                ),
+              ],
+            ),
           ],
+        ),
         ),
       ),
     );
