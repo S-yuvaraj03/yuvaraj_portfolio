@@ -25,6 +25,7 @@ class PortfolioState extends Equatable {
     this.searchQuery = '',
     this.searchResults = const [],
     this.focusedItemId,
+    this.navigationRequest = 0,
   });
 
   final PortfolioSection section;
@@ -32,6 +33,7 @@ class PortfolioState extends Equatable {
   final String searchQuery;
   final List<PortfolioItem> searchResults;
   final String? focusedItemId;
+  final int navigationRequest;
 
   PortfolioState copyWith({
     PortfolioSection? section,
@@ -40,6 +42,7 @@ class PortfolioState extends Equatable {
     List<PortfolioItem>? searchResults,
     String? focusedItemId,
     bool clearFocusedItem = false,
+    int? navigationRequest,
   }) {
     return PortfolioState(
       section: section ?? this.section,
@@ -48,6 +51,7 @@ class PortfolioState extends Equatable {
       searchResults: searchResults ?? this.searchResults,
       focusedItemId:
           clearFocusedItem ? null : focusedItemId ?? this.focusedItemId,
+      navigationRequest: navigationRequest ?? this.navigationRequest,
     );
   }
 
@@ -58,5 +62,6 @@ class PortfolioState extends Equatable {
         searchQuery,
         searchResults,
         focusedItemId,
+        navigationRequest,
       ];
 }
