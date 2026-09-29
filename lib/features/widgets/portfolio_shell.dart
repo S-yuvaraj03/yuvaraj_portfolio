@@ -56,7 +56,7 @@ class _PortfolioShellState extends State<PortfolioShell> {
         : _itemKeys[state.focusedItemId!] ?? _sectionKey(state.section);
 
     final targetContext = targetKey.currentContext;
-    if (targetContext == null) return;
+    if (targetContext == null || !targetContext.mounted) return;
 
     await Scrollable.ensureVisible(
       targetContext,

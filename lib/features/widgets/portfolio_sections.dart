@@ -47,49 +47,49 @@ class PortfolioSections extends StatelessWidget {
           KeyedSubtree(
             key: skillsKey,
             child: _CollectionSection(
-            eyebrow: 'TOOLKIT',
-            title: 'Skills that ship products',
-            description:
-                'A mobile-first toolkit spanning Flutter architecture, state management, APIs, databases and delivery workflows.',
-            items: _itemsOf(PortfolioItemType.skill),
-            itemKeyBuilder: itemKeyBuilder,
-          ),
+              eyebrow: 'TOOLKIT',
+              title: 'Skills that ship products',
+              description:
+                  'A mobile-first toolkit spanning Flutter architecture, state management, APIs, databases and delivery workflows.',
+              items: _itemsOf(PortfolioItemType.skill),
+              itemKeyBuilder: itemKeyBuilder,
+            ),
           ),
           const SizedBox(height: 72),
           KeyedSubtree(
             key: projectsKey,
             child: _CollectionSection(
-            eyebrow: 'SELECTED WORK',
-            title: 'Projects built around real problems',
-            description:
-                'Production banking work and hands-on products focused on reliability, offline capability and maintainable Flutter code.',
-            items: _itemsOf(PortfolioItemType.project),
-            itemKeyBuilder: itemKeyBuilder,
-          ),
+              eyebrow: 'SELECTED WORK',
+              title: 'Projects built around real problems',
+              description:
+                  'Production banking work and hands-on products focused on reliability, offline capability and maintainable Flutter code.',
+              items: _itemsOf(PortfolioItemType.project),
+              itemKeyBuilder: itemKeyBuilder,
+            ),
           ),
           const SizedBox(height: 72),
           KeyedSubtree(
             key: experienceKey,
-            child: _CollectionSection(
-            eyebrow: 'EXPERIENCE',
-            title: 'Building where reliability matters',
-            description:
-                'Experience collaborating across product, design, backend and client teams while owning delivery and production debugging.',
-            items: _itemsOf(PortfolioItemType.experience),
-            itemKeyBuilder: itemKeyBuilder,
-          ),
+            child: _ExperienceSection(
+              eyebrow: 'EXPERIENCE',
+              title: 'Building where reliability matters',
+              description:
+                  'Experience collaborating across product, design, backend and client teams while owning delivery and production debugging.',
+              items: _itemsOf(PortfolioItemType.experience),
+              itemKeyBuilder: itemKeyBuilder,
+            ),
           ),
           const SizedBox(height: 72),
           KeyedSubtree(
             key: educationKey,
             child: _CollectionSection(
-            eyebrow: 'EDUCATION',
-            title: 'Learning beyond the codebase',
-            description:
-                'Formal education alongside continuous hands-on learning in mobile, backend and software architecture.',
-            items: _itemsOf(PortfolioItemType.education),
-            itemKeyBuilder: itemKeyBuilder,
-          ),
+              eyebrow: 'EDUCATION',
+              title: 'Learning beyond the codebase',
+              description:
+                  'Formal education alongside continuous hands-on learning in mobile, backend and software architecture.',
+              items: _itemsOf(PortfolioItemType.education),
+              itemKeyBuilder: itemKeyBuilder,
+            ),
           ),
           const SizedBox(height: 72),
           KeyedSubtree(key: contactKey, child: const _ContactSection()),
@@ -127,12 +127,27 @@ class _AboutSection extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               const Text(
-                'My work combines Flutter engineering, clean architecture, API integration and production debugging. I enjoy owning a problem end-to-end, collaborating closely with stakeholders, and leaving the codebase easier to change than I found it.',
+                'I’m a mobile engineer focused on production Flutter systems, with hands-on experience across banking and payment journeys. At TCS, I work on SBI YONO 2.0 where feature delivery means understanding the business rule, API contract, transaction state and regression risk—not just building the screen.',
                 style: TextStyle(
                   color: AppColors.textSecondary,
                   height: 1.65,
                   fontSize: 15,
                 ),
+              ),
+              const SizedBox(height: 18),
+              const Text(
+                'I’m strongest when a problem needs ownership: tracing production issues, coordinating across teams, reviewing implementation choices and turning complex requirements into maintainable mobile flows.',
+                style: TextStyle(
+                  color: AppColors.textSecondary,
+                  height: 1.65,
+                  fontSize: 15,
+                ),
+              ),
+              const SizedBox(height: 22),
+              FilledButton.icon(
+                onPressed: () => context.push('/experience'),
+                icon: const Icon(Icons.arrow_forward_rounded, size: 17),
+                label: const Text('Explore my experience'),
               ),
             ],
           );
@@ -169,6 +184,157 @@ class _AboutSection extends StatelessWidget {
       ),
     );
   }
+}
+
+class _ExperienceSection extends StatelessWidget {
+  const _ExperienceSection({
+    required this.eyebrow,
+    required this.title,
+    required this.description,
+    required this.items,
+    required this.itemKeyBuilder,
+  });
+
+  final String eyebrow;
+  final String title;
+  final String description;
+  final List<PortfolioItem> items;
+  final GlobalKey Function(String id) itemKeyBuilder;
+
+  @override
+  Widget build(BuildContext context) {
+    final item = items.first;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _Eyebrow(eyebrow),
+        const SizedBox(height: 10),
+        Text(
+          title,
+          style: Theme.of(
+            context,
+          ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w800),
+        ),
+        const SizedBox(height: 10),
+        Text(
+          description,
+          style: const TextStyle(color: AppColors.textSecondary, height: 1.55),
+        ),
+        const SizedBox(height: 30),
+        Container(
+          key: itemKeyBuilder(item.id),
+          padding: const EdgeInsets.only(left: 24),
+          decoration: const BoxDecoration(
+            border: Border(
+              left: BorderSide(color: AppColors.primary, width: 2),
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const _Milestone(
+                label: 'NOW',
+                title: 'Flutter Developer',
+                body: 'Production mobile engineering • SBI YONO 2.0',
+              ),
+              const _TimelineConnector(),
+              const _Milestone(
+                label: '2022',
+                title: 'Joined Tata Consultancy Services',
+                body: 'Moved from IT support into mobile product engineering',
+              ),
+              const _TimelineConnector(),
+              const _Milestone(
+                label: 'GROWTH',
+                title: 'Payments, ownership & production',
+                body:
+                    'UPI • BillPay • API integration • debugging • code review',
+              ),
+              const SizedBox(height: 20),
+              OutlinedButton.icon(
+                onPressed: () => context.push(item.route!),
+                icon: const Icon(Icons.arrow_forward_rounded, size: 17),
+                label: const Text('Read my TCS experience'),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _Milestone extends StatelessWidget {
+  const _Milestone({
+    required this.label,
+    required this.title,
+    required this.body,
+  });
+  final String label;
+  final String title;
+  final String body;
+  @override
+  Widget build(BuildContext context) => Row(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Transform.translate(
+        offset: const Offset(-34, 2),
+        child: Container(
+          width: 18,
+          height: 18,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: AppColors.background,
+            border: Border.all(color: AppColors.secondary, width: 3),
+            boxShadow: const [
+              BoxShadow(color: Color(0x6600D9FF), blurRadius: 12),
+            ],
+          ),
+        ),
+      ),
+      Expanded(
+        child: Transform.translate(
+          offset: const Offset(-18, 0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                label,
+                style: const TextStyle(
+                  color: AppColors.secondary,
+                  fontSize: 10,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: 1.4,
+                ),
+              ),
+              const SizedBox(height: 5),
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+              const SizedBox(height: 5),
+              Text(
+                body,
+                style: const TextStyle(
+                  color: AppColors.textSecondary,
+                  height: 1.45,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ],
+  );
+}
+
+class _TimelineConnector extends StatelessWidget {
+  const _TimelineConnector();
+  @override
+  Widget build(BuildContext context) => const SizedBox(height: 30);
 }
 
 class _CollectionSection extends StatelessWidget {
@@ -264,90 +430,93 @@ class _PortfolioCardState extends State<_PortfolioCard> {
         borderRadius: BorderRadius.circular(24),
         onTap: item.route == null ? null : () => context.push(item.route!),
         child: AnimatedContainer(
-        duration: const Duration(milliseconds: 180),
-        transform: Matrix4.translationValues(0, _hovered ? -5 : 0, 0),
-        padding: const EdgeInsets.all(22),
-        decoration: BoxDecoration(
-          color: _hovered
-              ? AppColors.surfaceLight.withValues(alpha: 0.92)
-              : AppColors.surface.withValues(alpha: 0.78),
-          borderRadius: BorderRadius.circular(24),
-          border: Border.all(
+          duration: const Duration(milliseconds: 180),
+          transform: Matrix4.translationValues(0, _hovered ? -5 : 0, 0),
+          padding: const EdgeInsets.all(22),
+          decoration: BoxDecoration(
             color: _hovered
-                ? AppColors.secondary.withValues(alpha: 0.38)
-                : AppColors.border,
+                ? AppColors.surfaceLight.withValues(alpha: 0.92)
+                : AppColors.surface.withValues(alpha: 0.78),
+            borderRadius: BorderRadius.circular(24),
+            border: Border.all(
+              color: _hovered
+                  ? AppColors.secondary.withValues(alpha: 0.38)
+                  : AppColors.border,
+            ),
+            boxShadow: _hovered
+                ? const [
+                    BoxShadow(
+                      blurRadius: 28,
+                      color: Color(0x2200D9FF),
+                      offset: Offset(0, 10),
+                    ),
+                  ]
+                : const [],
           ),
-          boxShadow: _hovered
-              ? const [
-                  BoxShadow(
-                    blurRadius: 28,
-                    color: Color(0x2200D9FF),
-                    offset: Offset(0, 10),
-                  ),
-                ]
-              : const [],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _CardIdentity(item: item),
-            const SizedBox(height: 18),
-            Text(
-              item.title,
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
-            ),
-            const SizedBox(height: 7),
-            Text(
-              item.subtitle,
-              style: const TextStyle(
-                color: AppColors.secondary,
-                fontWeight: FontWeight.w600,
-                fontSize: 12,
-              ),
-            ),
-            if (item.description != null) ...[
-              const SizedBox(height: 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _CardIdentity(item: item),
+              const SizedBox(height: 18),
               Text(
-                item.description!,
+                item.title,
                 style: const TextStyle(
-                  color: AppColors.textSecondary,
-                  height: 1.5,
-                  fontSize: 13,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w800,
                 ),
               ),
-            ],
-            const SizedBox(height: 16),
-            Wrap(
-              spacing: 7,
-              runSpacing: 7,
-              children: item.keywords
-                  .take(5)
-                  .map((keyword) => _MiniTag(keyword))
-                  .toList(growable: false),
-            ),
-            const SizedBox(height: 16),
-            Row(
-              children: [
-                const Text(
-                  'Read details',
-                  style: TextStyle(
-                    color: AppColors.textPrimary,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
-                  ),
+              const SizedBox(height: 7),
+              Text(
+                item.subtitle,
+                style: const TextStyle(
+                  color: AppColors.secondary,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 12,
                 ),
-                const SizedBox(width: 6),
-                Icon(
-                  Icons.arrow_forward_rounded,
-                  size: 16,
-                  color: _hovered
-                      ? AppColors.secondary
-                      : AppColors.textSecondary,
+              ),
+              if (item.description != null) ...[
+                const SizedBox(height: 12),
+                Text(
+                  item.description!,
+                  style: const TextStyle(
+                    color: AppColors.textSecondary,
+                    height: 1.5,
+                    fontSize: 13,
+                  ),
                 ),
               ],
-            ),
-          ],
-        ),
+              const SizedBox(height: 16),
+              Wrap(
+                spacing: 7,
+                runSpacing: 7,
+                children: item.keywords
+                    .take(5)
+                    .map((keyword) => _MiniTag(keyword))
+                    .toList(growable: false),
+              ),
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  const Text(
+                    'Read details',
+                    style: TextStyle(
+                      color: AppColors.textPrimary,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const SizedBox(width: 6),
+                  Icon(
+                    Icons.arrow_forward_rounded,
+                    size: 16,
+                    color: _hovered
+                        ? AppColors.secondary
+                        : AppColors.textSecondary,
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -396,7 +565,7 @@ class _ContactSection extends StatelessWidget {
               _Pill('Full-stack growth'),
             ],
           ),
-          const SizedBox(height: 22),
+          const SizedBox(height: 24),
           Wrap(
             alignment: WrapAlignment.center,
             spacing: 10,
@@ -417,9 +586,15 @@ class _ContactSection extends StatelessWidget {
                 label: 'GitHub',
                 uri: ContactData.github,
               ),
-              const _ContactAction(
+              _ContactAction(
+                icon: Icons.call,
+                label: '+91 7401003208',
+                uri: '',
+              ),
+              _ContactAction(
                 icon: Icons.location_on_outlined,
                 label: ContactData.location,
+                uri: '',
               ),
             ],
           ),
@@ -470,8 +645,9 @@ class _CardIdentity extends StatelessWidget {
       PortfolioItemType.softSkill => Icons.psychology_rounded,
       PortfolioItemType.social => Icons.link_rounded,
     };
-    final imageUrl =
-        item.type == PortfolioItemType.skill ? PortfolioImageData.skill(item.id) : null;
+    final imageUrl = item.type == PortfolioItemType.skill
+        ? PortfolioImageData.skill(item.id)
+        : null;
 
     return Container(
       width: 52,
@@ -482,21 +658,13 @@ class _CardIdentity extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: AppColors.border),
       ),
-      child: CachedPortfolioLogo(
-        url: imageUrl,
-        fallback: fallback,
-        size: 34,
-      ),
+      child: CachedPortfolioLogo(url: imageUrl, fallback: fallback, size: 34),
     );
   }
 }
 
 class _ContactAction extends StatelessWidget {
-  const _ContactAction({
-    required this.icon,
-    required this.label,
-    this.uri,
-  });
+  const _ContactAction({required this.icon, required this.label, this.uri});
 
   final IconData icon;
   final String label;
@@ -522,37 +690,6 @@ class _ContactAction extends StatelessWidget {
         fontSize: 11,
         fontWeight: FontWeight.w600,
       ),
-    );
-  }
-}
-
-class _TypeIcon extends StatelessWidget {
-  const _TypeIcon({required this.type});
-
-  final PortfolioItemType type;
-
-  @override
-  Widget build(BuildContext context) {
-    final icon = switch (type) {
-      PortfolioItemType.skill => Icons.bolt_rounded,
-      PortfolioItemType.project => Icons.rocket_launch_rounded,
-      PortfolioItemType.experience => Icons.work_rounded,
-      PortfolioItemType.education => Icons.school_rounded,
-      PortfolioItemType.softSkill => Icons.psychology_rounded,
-      PortfolioItemType.social => Icons.link_rounded,
-    };
-
-    return Container(
-      width: 42,
-      height: 42,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [AppColors.primary, AppColors.secondary],
-        ),
-        borderRadius: BorderRadius.circular(14),
-      ),
-      child: Icon(icon, color: Colors.white, size: 21),
     );
   }
 }

@@ -320,10 +320,7 @@ class _SearchIsland extends StatelessWidget {
               height: 48,
               child: Row(
                 children: [
-                  const Icon(
-                    Icons.search_rounded,
-                    color: AppColors.secondary,
-                  ),
+                  const Icon(Icons.search_rounded, color: AppColors.secondary),
                   const SizedBox(width: 10),
                   Expanded(
                     child: TextField(
@@ -432,10 +429,7 @@ class _SearchResultsState extends State<_SearchResults> {
                       onPressed: safePage > 0
                           ? () => setState(() => _page = safePage - 1)
                           : null,
-                      icon: const Icon(
-                        Icons.chevron_left_rounded,
-                        size: 19,
-                      ),
+                      icon: const Icon(Icons.chevron_left_rounded, size: 19),
                     ),
                     Text(
                       '${safePage + 1} / $pageCount',
@@ -451,10 +445,7 @@ class _SearchResultsState extends State<_SearchResults> {
                       onPressed: safePage < pageCount - 1
                           ? () => setState(() => _page = safePage + 1)
                           : null,
-                      icon: const Icon(
-                        Icons.chevron_right_rounded,
-                        size: 19,
-                      ),
+                      icon: const Icon(Icons.chevron_right_rounded, size: 19),
                     ),
                   ],
                 ),
@@ -492,10 +483,7 @@ class _SearchHint extends StatelessWidget {
             Text(
               'Try Flutter, UPI, college or leadership',
               textAlign: TextAlign.center,
-              style: TextStyle(
-                color: AppColors.textSecondary,
-                fontSize: 12,
-              ),
+              style: TextStyle(color: AppColors.textSecondary, fontSize: 12),
             ),
           ],
         ),

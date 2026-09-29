@@ -219,8 +219,7 @@ abstract final class PortfolioData {
       id: 'srmist',
       title: 'SRM Institute of Science and Technology',
       subtitle: 'Master of Computer Applications • 2024 – 2026',
-      description:
-          'SRMIST, Kattankulathur • Chennai, India • CGPA 9.38 / 10.0',
+      description: 'SRMIST, Kattankulathur • Chennai, India • CGPA 9.38 / 10.0',
       type: PortfolioItemType.education,
       keywords: [
         'srm',

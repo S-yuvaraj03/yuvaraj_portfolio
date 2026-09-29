@@ -8,6 +8,7 @@ import 'package:yuvaraj_portfolio/data/portfolio/contact_data.dart';
 import 'package:yuvaraj_portfolio/data/portfolio/portfolio_data.dart';
 import 'package:yuvaraj_portfolio/data/portfolio/portfolio_article_data.dart';
 import 'package:yuvaraj_portfolio/data/portfolio/portfolio_image_data.dart';
+import 'package:yuvaraj_portfolio/data/portfolio/portfolio_links.dart';
 import 'package:yuvaraj_portfolio/core/widgets/cached_portfolio_logo.dart';
 import 'package:yuvaraj_portfolio/data/portfolio/skill_details_data.dart';
 import 'package:yuvaraj_portfolio/features/widgets/galaxy_background.dart';
@@ -31,7 +32,11 @@ class PortfolioDetailPage extends StatelessWidget {
     final config = _config(section);
     final items = _itemsFor(section);
     final width = MediaQuery.sizeOf(context).width;
-    final horizontal = width < 600 ? 20.0 : width < 1100 ? 48.0 : 88.0;
+    final horizontal = width < 600
+        ? 20.0
+        : width < 1100
+        ? 48.0
+        : 88.0;
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -242,6 +247,24 @@ class _DetailCard extends StatelessWidget {
             const SizedBox(height: 24),
             _ArticleContent(article: PortfolioArticleData.byId(item.id)!),
           ],
+          if (_externalLink(item.id) != null) ...[
+            const SizedBox(height: 22),
+            OutlinedButton.icon(
+              onPressed: () async {
+                final uri = Uri.parse(_externalLink(item.id)!);
+                if (await canLaunchUrl(uri)) {
+                  await launchUrl(uri, mode: LaunchMode.externalApplication);
+                }
+              },
+              icon: Icon(
+                item.id == 'sbi-yono'
+                    ? Icons.open_in_new_rounded
+                    : Icons.verified_outlined,
+                size: 17,
+              ),
+              label: Text(_externalLabel(item.id)),
+            ),
+          ],
           const SizedBox(height: 18),
           Wrap(
             spacing: 8,
@@ -309,20 +332,20 @@ class _ProjectContext extends StatelessWidget {
   Widget build(BuildContext context) {
     final details = switch (item.id) {
       'sbi-yono' => const (
-          'Production / FinTech',
-          'UPI & Bill Payment',
-          'Flutter • MobX • REST APIs • Clean Architecture'
-        ),
+        'Production / FinTech',
+        'UPI & Bill Payment',
+        'Flutter • MobX • REST APIs • Clean Architecture',
+      ),
       'pos' => const (
-          'Personal product',
-          'Offline sales & inventory',
-          'Flutter • SQLite • Local-first'
-        ),
+        'Personal product',
+        'Offline sales & inventory',
+        'Flutter • SQLite • Local-first',
+      ),
       'music-dj' => const (
-          'Personal project',
-          'Local media & playlists',
-          'Flutter • Firebase • Media APIs'
-        ),
+        'Personal project',
+        'Local media & playlists',
+        'Flutter • Firebase • Media APIs',
+      ),
       _ => const ('Project', 'Hands-on development', 'Flutter'),
     };
 
@@ -526,19 +549,19 @@ class _AboutDetail extends StatelessWidget {
     const cards = [
       (
         'Problem solving',
-        'I break difficult mobile problems into smaller, testable pieces and focus on the underlying cause rather than only the visible symptom.'
+        'I break difficult mobile problems into smaller, testable pieces and focus on the underlying cause rather than only the visible symptom.',
       ),
       (
         'Ownership',
-        'I work beyond the UI layer—from understanding requirements and integrating APIs to debugging production issues, reviewing code and supporting reliable delivery.'
+        'I work beyond the UI layer—from understanding requirements and integrating APIs to debugging production issues, reviewing code and supporting reliable delivery.',
       ),
       (
         'Collaboration',
-        'I work with product, design, backend, client and testing teams to turn requirements into maintainable mobile experiences.'
+        'I work with product, design, backend, client and testing teams to turn requirements into maintainable mobile experiences.',
       ),
       (
         'Continuous learning',
-        'Flutter is my core mobile stack, while I continue expanding into native Android, backend development, databases, cloud and software architecture.'
+        'Flutter is my core mobile stack, while I continue expanding into native Android, backend development, databases, cloud and software architecture.',
       ),
     ];
 
@@ -546,8 +569,7 @@ class _AboutDetail extends StatelessWidget {
       builder: (context, constraints) {
         final columns = constraints.maxWidth >= 800 ? 2 : 1;
         const gap = 18.0;
-        final width =
-            (constraints.maxWidth - gap * (columns - 1)) / columns;
+        final width = (constraints.maxWidth - gap * (columns - 1)) / columns;
         return Wrap(
           spacing: gap,
           runSpacing: gap,
@@ -602,38 +624,39 @@ class _ContactDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const entries = <({String label, String value, String? uri, IconData icon})>[
-      (
-        label: 'Email',
-        value: ContactData.email,
-        uri: 'mailto:syuvaraj3402@gmail.com',
-        icon: Icons.mail_outline_rounded,
-      ),
-      (
-        label: 'Phone',
-        value: ContactData.phone,
-        uri: 'tel:+917401003208',
-        icon: Icons.phone_outlined,
-      ),
-      (
-        label: 'LinkedIn',
-        value: 'connect-with-yuvaraj-s',
-        uri: ContactData.linkedIn,
-        icon: Icons.work_outline_rounded,
-      ),
-      (
-        label: 'GitHub',
-        value: 'S-yuvaraj03',
-        uri: ContactData.github,
-        icon: Icons.code_rounded,
-      ),
-      (
-        label: 'Location',
-        value: ContactData.location,
-        uri: null,
-        icon: Icons.location_on_outlined,
-      ),
-    ];
+    const entries =
+        <({String label, String value, String? uri, IconData icon})>[
+          (
+            label: 'Email',
+            value: ContactData.email,
+            uri: 'mailto:syuvaraj3402@gmail.com',
+            icon: Icons.mail_outline_rounded,
+          ),
+          (
+            label: 'Phone',
+            value: ContactData.phone,
+            uri: 'tel:+917401003208',
+            icon: Icons.phone_outlined,
+          ),
+          (
+            label: 'LinkedIn',
+            value: 'connect-with-yuvaraj-s',
+            uri: ContactData.linkedIn,
+            icon: Icons.work_outline_rounded,
+          ),
+          (
+            label: 'GitHub',
+            value: 'S-yuvaraj03',
+            uri: ContactData.github,
+            icon: Icons.code_rounded,
+          ),
+          (
+            label: 'Location',
+            value: ContactData.location,
+            uri: null,
+            icon: Icons.location_on_outlined,
+          ),
+        ];
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -684,9 +707,7 @@ class _ContactRow extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 20),
         decoration: const BoxDecoration(
-          border: Border(
-            bottom: BorderSide(color: AppColors.border),
-          ),
+          border: Border(bottom: BorderSide(color: AppColors.border)),
         ),
         child: Row(
           children: [
@@ -738,37 +759,6 @@ class _ContactRow extends StatelessWidget {
   }
 }
 
-class _TypeIcon extends StatelessWidget {
-  const _TypeIcon({required this.type});
-
-  final PortfolioItemType type;
-
-  @override
-  Widget build(BuildContext context) {
-    final icon = switch (type) {
-      PortfolioItemType.skill => Icons.bolt_rounded,
-      PortfolioItemType.project => Icons.rocket_launch_rounded,
-      PortfolioItemType.experience => Icons.work_rounded,
-      PortfolioItemType.education => Icons.school_rounded,
-      PortfolioItemType.softSkill => Icons.psychology_rounded,
-      PortfolioItemType.social => Icons.link_rounded,
-    };
-
-    return Container(
-      width: 44,
-      height: 44,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [AppColors.primary, AppColors.secondary],
-        ),
-        borderRadius: BorderRadius.circular(14),
-      ),
-      child: Icon(icon, color: Colors.white, size: 21),
-    );
-  }
-}
-
 class _Tag extends StatelessWidget {
   const _Tag(this.label);
 
@@ -785,13 +775,28 @@ class _Tag extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: const TextStyle(
-          color: AppColors.textSecondary,
-          fontSize: 10,
-        ),
+        style: const TextStyle(color: AppColors.textSecondary, fontSize: 10),
       ),
     );
   }
+}
+
+String? _externalLink(String id) {
+  return switch (id) {
+    'sbi-yono' => PortfolioLinks.sbiYono,
+    'srmist' => PortfolioLinks.srmProvisional,
+    'madras-university' => PortfolioLinks.madrasDegree,
+    _ => null,
+  };
+}
+
+String _externalLabel(String id) {
+  return switch (id) {
+    'sbi-yono' => 'Open SBI YONO on Play Store',
+    'srmist' => 'View provisional certificate',
+    'madras-university' => 'View degree certificate',
+    _ => 'Open link',
+  };
 }
 
 List<PortfolioItem> _itemsFor(PortfolioDetailSection section) {
@@ -819,34 +824,34 @@ class _PageConfig {
 _PageConfig _config(PortfolioDetailSection section) {
   return switch (section) {
     PortfolioDetailSection.about => const _PageConfig(
-        'PROFILE / FULL STORY',
-        'About me',
-        'How I approach engineering, ownership, collaboration and continuous learning.',
-      ),
+      'PROFILE / FULL STORY',
+      'About me',
+      'How I approach engineering, ownership, collaboration and continuous learning.',
+    ),
     PortfolioDetailSection.skills => const _PageConfig(
-        'TOOLKIT / DETAILS',
-        'Skills',
-        'A deeper view of the technologies and engineering practices behind my Flutter and mobile development work.',
-      ),
+      'TOOLKIT / DETAILS',
+      'Skills',
+      'A deeper view of the technologies and engineering practices behind my Flutter and mobile development work.',
+    ),
     PortfolioDetailSection.projects => const _PageConfig(
-        'SELECTED WORK / DETAILS',
-        'Projects',
-        'A closer look at production banking work and hands-on products built around real user and engineering problems.',
-      ),
+      'SELECTED WORK / DETAILS',
+      'Projects',
+      'A closer look at production banking work and hands-on products built around real user and engineering problems.',
+    ),
     PortfolioDetailSection.experience => const _PageConfig(
-        'CAREER / DETAILS',
-        'Experience',
-        'Professional experience focused on mobile engineering, fintech delivery, production reliability and cross-functional collaboration.',
-      ),
+      'CAREER / DETAILS',
+      'Experience',
+      'Professional experience focused on mobile engineering, fintech delivery, production reliability and cross-functional collaboration.',
+    ),
     PortfolioDetailSection.education => const _PageConfig(
-        'LEARNING / DETAILS',
-        'Education',
-        'Formal education alongside continuous hands-on learning across mobile, backend and software architecture.',
-      ),
+      'LEARNING / DETAILS',
+      'Education',
+      'Formal education alongside continuous hands-on learning across mobile, backend and software architecture.',
+    ),
     PortfolioDetailSection.contact => const _PageConfig(
-        'CONNECT / DETAILS',
-        'Contact',
-        'Direct ways to reach me for Flutter, mobile engineering and software opportunities.',
-      ),
+      'CONNECT / DETAILS',
+      'Contact',
+      'Direct ways to reach me for Flutter, mobile engineering and software opportunities.',
+    ),
   };
 }

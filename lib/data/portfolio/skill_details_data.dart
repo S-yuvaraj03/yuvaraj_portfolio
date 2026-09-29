@@ -27,7 +27,8 @@ abstract final class SkillDetailsData {
       summary:
           'Daily application development using null safety, async programming, collections, object-oriented design and maintainable domain logic.',
       gainedFrom: 'TCS production Flutter work + personal Flutter projects',
-      usedFor: 'Flutter application logic, models, state and reusable components.',
+      usedFor:
+          'Flutter application logic, models, state and reusable components.',
     ),
     SkillDetail(
       skillId: 'bloc',
@@ -57,7 +58,8 @@ abstract final class SkillDetailsData {
       skillId: 'clean-architecture',
       summary:
           'Separation of presentation, domain and data responsibilities with repository-driven design and SOLID principles.',
-      gainedFrom: 'Production Flutter engineering at TCS + architecture practice',
+      gainedFrom:
+          'Production Flutter engineering at TCS + architecture practice',
       usedFor:
           'Maintainable feature development, API abstraction and easier testing/debugging.',
     ),
@@ -95,7 +97,8 @@ abstract final class SkillDetailsData {
       summary:
           'Version control, collaborative branching, merge-request review and production delivery workflows.',
       gainedFrom: 'TCS team delivery + GitHub/GitLab project work',
-      usedFor: 'Feature development, code review, collaboration and CI/CD workflows.',
+      usedFor:
+          'Feature development, code review, collaboration and CI/CD workflows.',
     ),
   ];
 

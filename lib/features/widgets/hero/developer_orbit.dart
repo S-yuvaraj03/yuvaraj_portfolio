@@ -74,9 +74,7 @@ class _OrbitRing extends StatelessWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          border: Border.all(
-            color: AppColors.primary.withValues(alpha: .2),
-          ),
+          border: Border.all(color: AppColors.primary.withValues(alpha: .2)),
         ),
       ),
     );
@@ -120,8 +118,8 @@ class _OrbitItems extends StatelessWidget {
           Align(
             alignment: Alignment.centerLeft,
             child: _OrbitLogo(
-              label: 'Flutter',
-              url: PortfolioImageData.flutter,
+              label: 'Kotlin',
+              url: PortfolioImageData.kotlin,
               counterAngle: counterAngle,
             ),
           ),
@@ -195,9 +193,7 @@ class _DeveloperCore extends StatelessWidget {
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: AppColors.surface.withValues(alpha: .94),
-        border: Border.all(
-          color: AppColors.secondary.withValues(alpha: .34),
-        ),
+        border: Border.all(color: AppColors.secondary.withValues(alpha: .34)),
         boxShadow: [
           BoxShadow(
             color: AppColors.primary.withValues(alpha: .32),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:yuvaraj_portfolio/data/portfolio/portfolio_links.dart';
 
 import '../../../../app/theme/app_colors.dart';
 import '../../../../core/constants/app_constants.dart';
@@ -101,7 +103,44 @@ class _HeroContentState extends State<HeroContent> {
               ),
             ),
 
-            const SizedBox(height: 28),
+            const SizedBox(height: 26),
+
+            Wrap(
+              spacing: 12,
+              runSpacing: 12,
+              alignment: widget.centered
+                  ? WrapAlignment.center
+                  : WrapAlignment.start,
+              children: [
+                DecoratedBox(
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [AppColors.primary, AppColors.secondary],
+                    ),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: FilledButton.icon(
+                    onPressed: () => _openExternal(PortfolioLinks.cv),
+                    icon: const Icon(Icons.download_rounded, size: 18),
+                    label: const Text('Download CV'),
+                    style: FilledButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      shadowColor: Colors.transparent,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                  ),
+                ),
+                // OutlinedButton.icon(
+                //   onPressed: () => _openExternal(PortfolioLinks.sbiYono),
+                //   icon: const Icon(Icons.open_in_new_rounded, size: 17),
+                //   label: const Text('View SBI YONO'),
+                // ),
+              ],
+            ),
+
+            const SizedBox(height: 22),
 
             const Wrap(
               spacing: 10,
@@ -118,6 +157,13 @@ class _HeroContentState extends State<HeroContent> {
         ),
       ),
     );
+  }
+}
+
+Future<void> _openExternal(String url) async {
+  final uri = Uri.parse(url);
+  if (await canLaunchUrl(uri)) {
+    await launchUrl(uri, mode: LaunchMode.externalApplication);
   }
 }
 
