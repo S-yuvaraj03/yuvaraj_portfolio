@@ -25,6 +25,19 @@ final class PortfolioSectionChanged extends PortfolioEvent {
   List<Object?> get props => [section];
 }
 
+final class PortfolioItemSelected extends PortfolioEvent {
+  const PortfolioItemSelected({
+    required this.section,
+    required this.itemId,
+  });
+
+  final PortfolioSection section;
+  final String itemId;
+
+  @override
+  List<Object?> get props => [section, itemId];
+}
+
 final class DynamicIslandModeChanged extends PortfolioEvent {
   const DynamicIslandModeChanged(this.mode);
 

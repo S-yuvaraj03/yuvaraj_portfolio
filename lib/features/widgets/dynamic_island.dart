@@ -436,17 +436,28 @@ class _SearchResultTile extends StatelessWidget {
       trailing: const Icon(Icons.arrow_forward_ios_rounded, size: 12),
       onTap: () {
         final route = item.route;
+        if (route == null) return;
 
-        if (route != null) {
-          context.read<PortfolioBloc>().add(
-            const DynamicIslandModeChanged(DynamicIslandMode.compact),
-          );
+        final section = _sectionForItemType(item.type);
 
-          context.go(route);
-        }
+        context.read<PortfolioBloc>().add(
+          PortfolioItemSelected(section: section, itemId: item.id),
+        );
+        context.go(route);
       },
     );
   }
+}
+
+PortfolioSection _sectionForItemType(PortfolioItemType type) {
+  return switch (type) {
+    PortfolioItemType.skill => PortfolioSection.skills,
+    PortfolioItemType.project => PortfolioSection.projects,
+    PortfolioItemType.experience => PortfolioSection.experience,
+    PortfolioItemType.education => PortfolioSection.education,
+    PortfolioItemType.softSkill => PortfolioSection.about,
+    PortfolioItemType.social => PortfolioSection.contact,
+  };
 }
 
 class _SearchResultIcon extends StatelessWidget {
