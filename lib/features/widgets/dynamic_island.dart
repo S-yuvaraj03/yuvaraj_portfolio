@@ -304,54 +304,77 @@ class _SearchIsland extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(
-          height: 48,
-          child: Row(
-            children: [
-              const Icon(Icons.search_rounded, color: AppColors.secondary),
-              const SizedBox(width: 10),
-              Expanded(
-                child: TextField(
-                  autofocus: true,
-                  onChanged: (value) {
-                    context.read<PortfolioBloc>().add(
-                      PortfolioSearchChanged(value),
-                    );
-                  },
-                  decoration: const InputDecoration(
-                    hintText: 'Search my universe...',
-                    border: InputBorder.none,
-                    isDense: true,
-                    contentPadding: EdgeInsets.zero,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // AnimatedContainer grows from the navigation height to the search
+        // height. During those intermediate frames there is not enough room
+        // for the search content, so render nothing until the island can
+        // safely contain its fixed header and results area.
+        if (constraints.maxHeight < 120) {
+          return const SizedBox.shrink();
+        }
+
+        return Column(
+          children: [
+            SizedBox(
+              height: 48,
+              child: Row(
+                children: [
+                  const Icon(
+                    Icons.search_rounded,
+                    color: AppColors.secondary,
                   ),
-                ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: TextField(
+                      autofocus: true,
+                      onChanged: (value) {
+                        context.read<PortfolioBloc>().add(
+                          PortfolioSearchChanged(value),
+                        );
+                      },
+                      decoration: const InputDecoration(
+                        hintText: 'Search my universe...',
+                        border: InputBorder.none,
+                        isDense: true,
+                        contentPadding: EdgeInsets.zero,
+                      ),
+                    ),
+                  ),
+                  _IslandAction(
+                    icon: Icons.close_rounded,
+                    onPressed: () {
+                      context.read<PortfolioBloc>().add(
+                        const DynamicIslandModeChanged(
+                          DynamicIslandMode.compact,
+                        ),
+                      );
+                    },
+                  ),
+                ],
               ),
-              _IslandAction(
-                icon: Icons.close_rounded,
-                onPressed: () {
-                  context.read<PortfolioBloc>().add(
-                    const DynamicIslandModeChanged(DynamicIslandMode.compact),
-                  );
-                },
-              ),
-            ],
-          ),
-        ),
-
-        const Divider(height: 1, color: AppColors.border),
-
-        const SizedBox(height: 8),
-
-        const Expanded(child: _SearchResults()),
-      ],
+            ),
+            const Divider(height: 1, color: AppColors.border),
+            const SizedBox(height: 8),
+            const Expanded(child: _SearchResults()),
+          ],
+        );
+      },
     );
   }
 }
 
-class _SearchResults extends StatelessWidget {
+class _SearchResults extends StatefulWidget {
   const _SearchResults();
+
+  @override
+  State<_SearchResults> createState() => _SearchResultsState();
+}
+
+class _SearchResultsState extends State<_SearchResults> {
+  static const int _pageSize = 3;
+  int _page = 0;
+  String _lastQuery = '';
 
   @override
   Widget build(BuildContext context) {
@@ -360,6 +383,11 @@ class _SearchResults extends StatelessWidget {
           previous.searchQuery != current.searchQuery ||
           previous.searchResults != current.searchResults,
       builder: (context, state) {
+        if (_lastQuery != state.searchQuery) {
+          _lastQuery = state.searchQuery;
+          _page = 0;
+        }
+
         if (state.searchQuery.isEmpty) {
           return const _SearchHint();
         }
@@ -373,13 +401,65 @@ class _SearchResults extends StatelessWidget {
           );
         }
 
-        return ListView.separated(
-          itemCount: state.searchResults.length,
-          separatorBuilder: (_, _) =>
-              const Divider(height: 1, color: AppColors.border),
-          itemBuilder: (context, index) {
-            return _SearchResultTile(item: state.searchResults[index]);
-          },
+        final pageCount = (state.searchResults.length / _pageSize).ceil();
+        final safePage = _page.clamp(0, pageCount - 1);
+        final start = safePage * _pageSize;
+        final end = (start + _pageSize).clamp(0, state.searchResults.length);
+        final visibleResults = state.searchResults.sublist(start, end);
+
+        return Column(
+          children: [
+            Expanded(
+              child: ListView.separated(
+                padding: EdgeInsets.zero,
+                itemCount: visibleResults.length,
+                separatorBuilder: (_, _) =>
+                    const Divider(height: 1, color: AppColors.border),
+                itemBuilder: (context, index) {
+                  return _SearchResultTile(item: visibleResults[index]);
+                },
+              ),
+            ),
+            if (pageCount > 1)
+              SizedBox(
+                height: 34,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      tooltip: 'Previous results',
+                      visualDensity: VisualDensity.compact,
+                      onPressed: safePage > 0
+                          ? () => setState(() => _page = safePage - 1)
+                          : null,
+                      icon: const Icon(
+                        Icons.chevron_left_rounded,
+                        size: 19,
+                      ),
+                    ),
+                    Text(
+                      '${safePage + 1} / $pageCount',
+                      style: const TextStyle(
+                        color: AppColors.textSecondary,
+                        fontSize: 11,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    IconButton(
+                      tooltip: 'Next results',
+                      visualDensity: VisualDensity.compact,
+                      onPressed: safePage < pageCount - 1
+                          ? () => setState(() => _page = safePage + 1)
+                          : null,
+                      icon: const Icon(
+                        Icons.chevron_right_rounded,
+                        size: 19,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+          ],
         );
       },
     );
@@ -392,24 +472,33 @@ class _SearchHint extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(Icons.auto_awesome_rounded, color: AppColors.primary, size: 30),
-          SizedBox(height: 12),
-          Text(
-            'Search anything about me',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontWeight: FontWeight.w600),
-          ),
-          SizedBox(height: 6),
-          Text(
-            'Try Flutter, UPI, college or leadership',
-            textAlign: TextAlign.center,
-            style: TextStyle(color: AppColors.textSecondary, fontSize: 12),
-          ),
-        ],
+      child: SingleChildScrollView(
+        physics: NeverScrollableScrollPhysics(),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.auto_awesome_rounded,
+              color: AppColors.primary,
+              size: 26,
+            ),
+            SizedBox(height: 8),
+            Text(
+              'Search anything about me',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontWeight: FontWeight.w600),
+            ),
+            SizedBox(height: 4),
+            Text(
+              'Try Flutter, UPI, college or leadership',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: AppColors.textSecondary,
+                fontSize: 12,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
