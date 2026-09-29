@@ -6,6 +6,9 @@ import 'package:yuvaraj_portfolio/app/theme/app_colors.dart';
 import 'package:yuvaraj_portfolio/data/models/portfolio_item.dart';
 import 'package:yuvaraj_portfolio/data/portfolio/contact_data.dart';
 import 'package:yuvaraj_portfolio/data/portfolio/portfolio_data.dart';
+import 'package:yuvaraj_portfolio/data/portfolio/portfolio_article_data.dart';
+import 'package:yuvaraj_portfolio/data/portfolio/portfolio_image_data.dart';
+import 'package:yuvaraj_portfolio/core/widgets/cached_portfolio_logo.dart';
 import 'package:yuvaraj_portfolio/data/portfolio/skill_details_data.dart';
 import 'package:yuvaraj_portfolio/features/widgets/galaxy_background.dart';
 
@@ -207,7 +210,7 @@ class _DetailCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _TypeIcon(type: item.type),
+          _DetailIdentity(item: item),
           const SizedBox(height: 22),
           Text(
             item.title,
@@ -244,6 +247,10 @@ class _DetailCard extends StatelessWidget {
           if (item.type == PortfolioItemType.project) ...[
             const SizedBox(height: 18),
             _ProjectContext(item: item),
+          ],
+          if (PortfolioArticleData.byId(item.id) != null) ...[
+            const SizedBox(height: 24),
+            _ArticleContent(article: PortfolioArticleData.byId(item.id)!),
           ],
           const SizedBox(height: 18),
           Wrap(
@@ -418,6 +425,103 @@ class _InfoChip extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class _DetailIdentity extends StatelessWidget {
+  const _DetailIdentity({required this.item});
+
+  final PortfolioItem item;
+
+  @override
+  Widget build(BuildContext context) {
+    final fallback = switch (item.type) {
+      PortfolioItemType.skill => Icons.bolt_rounded,
+      PortfolioItemType.project => Icons.rocket_launch_rounded,
+      PortfolioItemType.experience => Icons.work_rounded,
+      PortfolioItemType.education => Icons.school_rounded,
+      PortfolioItemType.softSkill => Icons.psychology_rounded,
+      PortfolioItemType.social => Icons.link_rounded,
+    };
+    return Container(
+      width: 54,
+      height: 54,
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: AppColors.surfaceLight.withValues(alpha: .9),
+        borderRadius: BorderRadius.circular(17),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: CachedPortfolioLogo(
+        url: item.type == PortfolioItemType.skill
+            ? PortfolioImageData.skill(item.id)
+            : null,
+        fallback: fallback,
+        size: 34,
+      ),
+    );
+  }
+}
+
+class _ArticleContent extends StatelessWidget {
+  const _ArticleContent({required this.article});
+
+  final PortfolioArticle article;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(MediaQuery.sizeOf(context).width < 600 ? 18 : 24),
+      decoration: BoxDecoration(
+        color: Colors.black.withValues(alpha: .18),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'DETAILED VIEW',
+            style: TextStyle(
+              color: AppColors.secondary,
+              fontSize: 9,
+              fontWeight: FontWeight.w800,
+              letterSpacing: 1.5,
+            ),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            article.intro,
+            style: const TextStyle(
+              color: AppColors.textPrimary,
+              fontSize: 14,
+              height: 1.65,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          for (final section in article.sections) ...[
+            const SizedBox(height: 22),
+            Text(
+              section.title,
+              style: const TextStyle(
+                color: AppColors.textPrimary,
+                fontSize: 15,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+            const SizedBox(height: 7),
+            Text(
+              section.body,
+              style: const TextStyle(
+                color: AppColors.textSecondary,
+                fontSize: 13,
+                height: 1.65,
+              ),
+            ),
+          ],
         ],
       ),
     );
