@@ -1,19 +1,27 @@
 abstract final class PortfolioImageData {
+  static const String flutter =
+      'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/flutter/flutter-original.svg';
+  static const String dart =
+      'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/dart/dart-original.svg';
+  static const String git =
+      'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg';
+  static const String firebase =
+      'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/firebase/firebase-original.svg';
+  static const String kotlin =
+      'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/kotlin/kotlin-original.svg';
+  static const String django =
+      'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/django/django-plain.svg';
+  static const String mysql =
+      'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original.svg';
+
   static const Map<String, String> skillImages = {
-    'flutter':
-        'https://raw.githubusercontent.com/devicons/devicon/master/icons/flutter/flutter-original.svg',
-    'dart':
-        'https://raw.githubusercontent.com/devicons/devicon/master/icons/dart/dart-original.svg',
-    'firebase':
-        'https://raw.githubusercontent.com/devicons/devicon/master/icons/firebase/firebase-plain.svg',
-    'mysql':
-        'https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original.svg',
-    'git':
-        'https://raw.githubusercontent.com/devicons/devicon/master/icons/git/git-original.svg',
-    'android-kotlin':
-        'https://raw.githubusercontent.com/devicons/devicon/master/icons/kotlin/kotlin-original.svg',
-    'django':
-        'https://raw.githubusercontent.com/devicons/devicon/master/icons/django/django-plain.svg',
+    'flutter': flutter,
+    'dart': dart,
+    'firebase': firebase,
+    'mysql': mysql,
+    'git': git,
+    'android-kotlin': kotlin,
+    'django': django,
   };
 
   static String? skill(String id) => skillImages[id];
