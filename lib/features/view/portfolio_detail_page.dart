@@ -8,6 +8,7 @@ import 'package:yuvaraj_portfolio/data/portfolio/contact_data.dart';
 import 'package:yuvaraj_portfolio/data/portfolio/portfolio_data.dart';
 import 'package:yuvaraj_portfolio/data/portfolio/portfolio_article_data.dart';
 import 'package:yuvaraj_portfolio/data/portfolio/portfolio_image_data.dart';
+import 'package:yuvaraj_portfolio/data/portfolio/portfolio_links.dart';
 import 'package:yuvaraj_portfolio/core/widgets/cached_portfolio_logo.dart';
 import 'package:yuvaraj_portfolio/data/portfolio/skill_details_data.dart';
 import 'package:yuvaraj_portfolio/features/widgets/galaxy_background.dart';
@@ -241,6 +242,24 @@ class _DetailCard extends StatelessWidget {
           if (PortfolioArticleData.byId(item.id) != null) ...[
             const SizedBox(height: 24),
             _ArticleContent(article: PortfolioArticleData.byId(item.id)!),
+          ],
+          if (_externalLink(item.id) != null) ...[
+            const SizedBox(height: 22),
+            OutlinedButton.icon(
+              onPressed: () async {
+                final uri = Uri.parse(_externalLink(item.id)!);
+                if (await canLaunchUrl(uri)) {
+                  await launchUrl(uri, mode: LaunchMode.externalApplication);
+                }
+              },
+              icon: Icon(
+                item.id == 'sbi-yono'
+                    ? Icons.open_in_new_rounded
+                    : Icons.verified_outlined,
+                size: 17,
+              ),
+              label: Text(_externalLabel(item.id)),
+            ),
           ],
           const SizedBox(height: 18),
           Wrap(
@@ -792,6 +811,24 @@ class _Tag extends StatelessWidget {
       ),
     );
   }
+}
+
+String? _externalLink(String id) {
+  return switch (id) {
+    'sbi-yono' => PortfolioLinks.sbiYono,
+    'srmist' => PortfolioLinks.srmProvisional,
+    'madras-university' => PortfolioLinks.madrasDegree,
+    _ => null,
+  };
+}
+
+String _externalLabel(String id) {
+  return switch (id) {
+    'sbi-yono' => 'Open SBI YONO on Play Store',
+    'srmist' => 'View provisional certificate',
+    'madras-university' => 'View degree certificate',
+    _ => 'Open link',
+  };
 }
 
 List<PortfolioItem> _itemsFor(PortfolioDetailSection section) {
