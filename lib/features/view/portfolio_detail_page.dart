@@ -6,6 +6,7 @@ import 'package:yuvaraj_portfolio/app/theme/app_colors.dart';
 import 'package:yuvaraj_portfolio/data/models/portfolio_item.dart';
 import 'package:yuvaraj_portfolio/data/portfolio/contact_data.dart';
 import 'package:yuvaraj_portfolio/data/portfolio/portfolio_data.dart';
+import 'package:yuvaraj_portfolio/data/portfolio/skill_details_data.dart';
 import 'package:yuvaraj_portfolio/features/widgets/galaxy_background.dart';
 
 enum PortfolioDetailSection {
@@ -235,6 +236,15 @@ class _DetailCard extends StatelessWidget {
               ),
             ),
           ],
+          if (item.type == PortfolioItemType.skill &&
+              SkillDetailsData.byId(item.id) != null) ...[
+            const SizedBox(height: 18),
+            _SkillProvenance(detail: SkillDetailsData.byId(item.id)!),
+          ],
+          if (item.type == PortfolioItemType.project) ...[
+            const SizedBox(height: 18),
+            _ProjectContext(item: item),
+          ],
           const SizedBox(height: 18),
           Wrap(
             spacing: 8,
@@ -243,6 +253,170 @@ class _DetailCard extends StatelessWidget {
                 .take(6)
                 .map((word) => _Tag(word))
                 .toList(growable: false),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _SkillProvenance extends StatelessWidget {
+  const _SkillProvenance({required this.detail});
+
+  final SkillDetail detail;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.black.withValues(alpha: .22),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            detail.summary,
+            style: const TextStyle(
+              color: AppColors.textSecondary,
+              height: 1.55,
+              fontSize: 13,
+            ),
+          ),
+          const SizedBox(height: 14),
+          _DetailLine(
+            icon: Icons.school_outlined,
+            label: 'GAINED FROM',
+            value: detail.gainedFrom,
+          ),
+          const SizedBox(height: 10),
+          _DetailLine(
+            icon: Icons.build_outlined,
+            label: 'USED FOR',
+            value: detail.usedFor,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ProjectContext extends StatelessWidget {
+  const _ProjectContext({required this.item});
+
+  final PortfolioItem item;
+
+  @override
+  Widget build(BuildContext context) {
+    final details = switch (item.id) {
+      'sbi-yono' => const (
+          'Production / FinTech',
+          'UPI & Bill Payment',
+          'Flutter • MobX • REST APIs • Clean Architecture'
+        ),
+      'pos' => const (
+          'Personal product',
+          'Offline sales & inventory',
+          'Flutter • SQLite • Local-first'
+        ),
+      'music-dj' => const (
+          'Personal project',
+          'Local media & playlists',
+          'Flutter • Firebase • Media APIs'
+        ),
+      _ => const ('Project', 'Hands-on development', 'Flutter'),
+    };
+
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: [
+        _InfoChip(icon: Icons.badge_outlined, text: details.$1),
+        _InfoChip(icon: Icons.layers_outlined, text: details.$2),
+        _InfoChip(icon: Icons.code_rounded, text: details.$3),
+      ],
+    );
+  }
+}
+
+class _DetailLine extends StatelessWidget {
+  const _DetailLine({
+    required this.icon,
+    required this.label,
+    required this.value,
+  });
+
+  final IconData icon;
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(icon, size: 17, color: AppColors.secondary),
+        const SizedBox(width: 9),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                label,
+                style: const TextStyle(
+                  color: AppColors.textSecondary,
+                  fontSize: 9,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: 1.1,
+                ),
+              ),
+              const SizedBox(height: 3),
+              Text(
+                value,
+                style: const TextStyle(
+                  color: AppColors.textPrimary,
+                  fontSize: 12,
+                  height: 1.4,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _InfoChip extends StatelessWidget {
+  const _InfoChip({required this.icon, required this.text});
+
+  final IconData icon;
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+      decoration: BoxDecoration(
+        color: AppColors.surfaceLight.withValues(alpha: .72),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 14, color: AppColors.secondary),
+          const SizedBox(width: 6),
+          Text(
+            text,
+            style: const TextStyle(
+              color: AppColors.textSecondary,
+              fontSize: 10,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ],
       ),
