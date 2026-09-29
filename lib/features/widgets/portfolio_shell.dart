@@ -71,7 +71,7 @@ class _PortfolioShellState extends State<PortfolioShell> {
     return BlocListener<PortfolioBloc, PortfolioState>(
       listenWhen: (previous, current) =>
           previous.section != current.section ||
-          previous.focusedItemId != current.focusedItemId,
+          previous.navigationRequest != current.navigationRequest,
       listener: (context, state) => _scrollToState(state),
       child: Stack(
         children: [
