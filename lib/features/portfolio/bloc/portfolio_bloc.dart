@@ -11,6 +11,7 @@ class PortfolioBloc extends Bloc<PortfolioEvent, PortfolioState> {
   PortfolioBloc() : super(const PortfolioState()) {
     on<PortfolioSearchChanged>(_onSearchChanged);
     on<PortfolioSectionChanged>(_onSectionChanged);
+    on<PortfolioItemSelected>(_onItemSelected);
     on<DynamicIslandModeChanged>(_onIslandModeChanged);
     on<DynamicIslandToggled>(_onIslandToggled);
   }
@@ -20,7 +21,6 @@ class PortfolioBloc extends Bloc<PortfolioEvent, PortfolioState> {
     Emitter<PortfolioState> emit,
   ) {
     final query = event.query.trim();
-
     final results = PortfolioSearchService.search(
       query: query,
       items: PortfolioData.items,
@@ -37,6 +37,22 @@ class PortfolioBloc extends Bloc<PortfolioEvent, PortfolioState> {
       state.copyWith(
         section: event.section,
         islandMode: DynamicIslandMode.compact,
+        clearFocusedItem: true,
+      ),
+    );
+  }
+
+  void _onItemSelected(
+    PortfolioItemSelected event,
+    Emitter<PortfolioState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        section: event.section,
+        focusedItemId: event.itemId,
+        islandMode: DynamicIslandMode.compact,
+        searchQuery: '',
+        searchResults: const [],
       ),
     );
   }
