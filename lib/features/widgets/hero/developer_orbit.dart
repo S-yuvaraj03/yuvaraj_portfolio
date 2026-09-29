@@ -1,8 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-
-import '../../../../app/theme/app_colors.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:yuvaraj_portfolio/app/theme/app_colors.dart';
+import 'package:yuvaraj_portfolio/data/portfolio/portfolio_image_data.dart';
 
 class DeveloperOrbit extends StatefulWidget {
   const DeveloperOrbit({this.compact = false, super.key});
@@ -20,10 +21,9 @@ class _DeveloperOrbitState extends State<DeveloperOrbit>
   @override
   void initState() {
     super.initState();
-
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 18),
+      duration: const Duration(seconds: 24),
     )..repeat();
   }
 
@@ -35,25 +35,23 @@ class _DeveloperOrbitState extends State<DeveloperOrbit>
 
   @override
   Widget build(BuildContext context) {
-    final size = widget.compact ? 260.0 : 380.0;
+    final size = widget.compact ? 250.0 : 370.0;
 
     return SizedBox.square(
       dimension: size,
       child: AnimatedBuilder(
         animation: _controller,
-        builder: (context, child) {
+        builder: (context, _) {
+          final angle = _controller.value * 2 * pi;
           return Stack(
             alignment: Alignment.center,
             children: [
-              const _OrbitRing(sizeFactor: 0.95),
-
-              const _OrbitRing(sizeFactor: 0.72),
-
+              const _OrbitRing(sizeFactor: .96),
+              const _OrbitRing(sizeFactor: .68),
               Transform.rotate(
-                angle: _controller.value * 2 * pi,
-                child: const _OrbitItems(),
+                angle: angle,
+                child: _OrbitItems(counterAngle: -angle),
               ),
-
               const _DeveloperCore(),
             ],
           );
@@ -73,10 +71,12 @@ class _OrbitRing extends StatelessWidget {
     return FractionallySizedBox(
       widthFactor: sizeFactor,
       heightFactor: sizeFactor,
-      child: Container(
+      child: DecoratedBox(
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          border: Border.all(color: AppColors.primary.withValues(alpha: 0.18)),
+          border: Border.all(
+            color: AppColors.primary.withValues(alpha: .2),
+          ),
         ),
       ),
     );
@@ -84,28 +84,46 @@ class _OrbitRing extends StatelessWidget {
 }
 
 class _OrbitItems extends StatelessWidget {
-  const _OrbitItems();
+  const _OrbitItems({required this.counterAngle});
+
+  final double counterAngle;
 
   @override
   Widget build(BuildContext context) {
-    return const SizedBox.expand(
+    return SizedBox.expand(
       child: Stack(
         children: [
           Align(
             alignment: Alignment.topCenter,
-            child: _OrbitDot(label: 'Dart'),
+            child: _OrbitLogo(
+              label: 'Dart',
+              url: PortfolioImageData.dart,
+              counterAngle: counterAngle,
+            ),
           ),
           Align(
             alignment: Alignment.centerRight,
-            child: _OrbitDot(label: 'Git'),
+            child: _OrbitLogo(
+              label: 'Git',
+              url: PortfolioImageData.git,
+              counterAngle: counterAngle,
+            ),
           ),
           Align(
             alignment: Alignment.bottomCenter,
-            child: _OrbitDot(label: 'BLoC'),
+            child: _OrbitLogo(
+              label: 'Firebase',
+              url: PortfolioImageData.firebase,
+              counterAngle: counterAngle,
+            ),
           ),
           Align(
             alignment: Alignment.centerLeft,
-            child: _OrbitDot(label: 'Flutter'),
+            child: _OrbitLogo(
+              label: 'Flutter',
+              url: PortfolioImageData.flutter,
+              counterAngle: counterAngle,
+            ),
           ),
         ],
       ),
@@ -113,23 +131,53 @@ class _OrbitItems extends StatelessWidget {
   }
 }
 
-class _OrbitDot extends StatelessWidget {
-  const _OrbitDot({required this.label});
+class _OrbitLogo extends StatelessWidget {
+  const _OrbitLogo({
+    required this.label,
+    required this.url,
+    required this.counterAngle,
+  });
 
   final String label;
+  final String url;
+  final double counterAngle;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
-      decoration: BoxDecoration(
-        color: Colors.black,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.secondary.withValues(alpha: 0.35)),
-      ),
-      child: Text(
-        label,
-        style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600),
+    return Transform.rotate(
+      angle: counterAngle,
+      child: Tooltip(
+        message: label,
+        child: Container(
+          width: 58,
+          height: 58,
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: const Color(0xEE0B0F18),
+            borderRadius: BorderRadius.circular(18),
+            border: Border.all(
+              color: AppColors.secondary.withValues(alpha: .32),
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.secondary.withValues(alpha: .12),
+                blurRadius: 18,
+              ),
+            ],
+          ),
+          child: SvgPicture.network(
+            url,
+            width: 34,
+            height: 34,
+            fit: BoxFit.contain,
+            placeholderBuilder: (_) => const Center(
+              child: SizedBox.square(
+                dimension: 16,
+                child: CircularProgressIndicator(strokeWidth: 1.5),
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -141,33 +189,31 @@ class _DeveloperCore extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 150,
-      height: 150,
-      alignment: Alignment.center,
+      width: 126,
+      height: 126,
+      padding: const EdgeInsets.all(30),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [AppColors.primary, AppColors.secondary],
+        color: AppColors.surface.withValues(alpha: .94),
+        border: Border.all(
+          color: AppColors.secondary.withValues(alpha: .34),
         ),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withValues(alpha: 0.35),
-            blurRadius: 45,
+            color: AppColors.primary.withValues(alpha: .32),
+            blurRadius: 42,
+            spreadRadius: 4,
           ),
         ],
       ),
-      child: const Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(Icons.code_rounded, size: 44),
-          SizedBox(height: 6),
-          Text(
-            'YS',
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900),
-          ),
-        ],
+      child: SvgPicture.network(
+        PortfolioImageData.flutter,
+        fit: BoxFit.contain,
+        placeholderBuilder: (_) => const Icon(
+          Icons.code_rounded,
+          color: AppColors.secondary,
+          size: 42,
+        ),
       ),
     );
   }
