@@ -196,7 +196,9 @@ abstract final class PortfolioData {
     PortfolioItem(
       id: 'tcs',
       title: 'Tata Consultancy Services',
-      subtitle: 'Flutter Developer',
+      subtitle: 'Software Engineer — Flutter Developer • Nov 2022 – Present',
+      description:
+          'Building production-grade Flutter features for SBI YONO across UPI, BillPay and other payment journeys, with client collaboration and production support.',
       type: PortfolioItemType.experience,
       keywords: [
         'tcs',
@@ -216,7 +218,9 @@ abstract final class PortfolioData {
     PortfolioItem(
       id: 'srmist',
       title: 'SRM Institute of Science and Technology',
-      subtitle: 'Education',
+      subtitle: 'Master of Computer Applications • 2024 – 2026',
+      description:
+          'SRMIST, Kattankulathur • Chennai, India • CGPA 9.38 / 10.0',
       type: PortfolioItemType.education,
       keywords: [
         'srm',
@@ -226,6 +230,16 @@ abstract final class PortfolioData {
         'education',
         'degree',
       ],
+      route: AppRoutes.education,
+    ),
+
+    PortfolioItem(
+      id: 'madras-university',
+      title: 'University of Madras',
+      subtitle: 'Bachelor of Computer Applications • 2019 – 2022',
+      description: 'Chennai, India • CGPA 7.4 / 10.0',
+      type: PortfolioItemType.education,
+      keywords: ['madras university', 'bca', 'college', 'education', 'degree'],
       route: AppRoutes.education,
     ),
 
