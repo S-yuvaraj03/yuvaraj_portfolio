@@ -4,7 +4,24 @@ import 'package:yuvaraj_portfolio/data/models/portfolio_item.dart';
 import 'package:yuvaraj_portfolio/data/portfolio/portfolio_data.dart';
 
 class PortfolioSections extends StatelessWidget {
-  const PortfolioSections({super.key});
+  const PortfolioSections({
+    required this.aboutKey,
+    required this.skillsKey,
+    required this.projectsKey,
+    required this.experienceKey,
+    required this.educationKey,
+    required this.contactKey,
+    required this.itemKeyBuilder,
+    super.key,
+  });
+
+  final GlobalKey aboutKey;
+  final GlobalKey skillsKey;
+  final GlobalKey projectsKey;
+  final GlobalKey experienceKey;
+  final GlobalKey educationKey;
+  final GlobalKey contactKey;
+  final GlobalKey Function(String id) itemKeyBuilder;
 
   @override
   Widget build(BuildContext context) {
@@ -16,41 +33,57 @@ class PortfolioSections extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const _AboutSection(),
+          KeyedSubtree(key: aboutKey, child: const _AboutSection()),
           const SizedBox(height: 72),
-          _CollectionSection(
+          KeyedSubtree(
+            key: skillsKey,
+            child: _CollectionSection(
             eyebrow: 'TOOLKIT',
             title: 'Skills that ship products',
             description:
                 'A mobile-first toolkit spanning Flutter architecture, state management, APIs, databases and delivery workflows.',
             items: _itemsOf(PortfolioItemType.skill),
+            itemKeyBuilder: itemKeyBuilder,
+          ),
           ),
           const SizedBox(height: 72),
-          _CollectionSection(
+          KeyedSubtree(
+            key: projectsKey,
+            child: _CollectionSection(
             eyebrow: 'SELECTED WORK',
             title: 'Projects built around real problems',
             description:
                 'Production banking work and hands-on products focused on reliability, offline capability and maintainable Flutter code.',
             items: _itemsOf(PortfolioItemType.project),
+            itemKeyBuilder: itemKeyBuilder,
+          ),
           ),
           const SizedBox(height: 72),
-          _CollectionSection(
+          KeyedSubtree(
+            key: experienceKey,
+            child: _CollectionSection(
             eyebrow: 'EXPERIENCE',
             title: 'Building where reliability matters',
             description:
                 'Experience collaborating across product, design, backend and client teams while owning delivery and production debugging.',
             items: _itemsOf(PortfolioItemType.experience),
+            itemKeyBuilder: itemKeyBuilder,
+          ),
           ),
           const SizedBox(height: 72),
-          _CollectionSection(
+          KeyedSubtree(
+            key: educationKey,
+            child: _CollectionSection(
             eyebrow: 'EDUCATION',
             title: 'Learning beyond the codebase',
             description:
                 'Formal education alongside continuous hands-on learning in mobile, backend and software architecture.',
             items: _itemsOf(PortfolioItemType.education),
+            itemKeyBuilder: itemKeyBuilder,
+          ),
           ),
           const SizedBox(height: 72),
-          const _ContactSection(),
+          KeyedSubtree(key: contactKey, child: const _ContactSection()),
         ],
       ),
     );
@@ -133,12 +166,14 @@ class _CollectionSection extends StatelessWidget {
     required this.title,
     required this.description,
     required this.items,
+    required this.itemKeyBuilder,
   });
 
   final String eyebrow;
   final String title;
   final String description;
   final List<PortfolioItem> items;
+  final GlobalKey Function(String id) itemKeyBuilder;
 
   @override
   Widget build(BuildContext context) {
@@ -181,7 +216,11 @@ class _CollectionSection extends StatelessWidget {
               runSpacing: gap,
               children: [
                 for (final item in items)
-                  SizedBox(width: cardWidth, child: _PortfolioCard(item: item)),
+                  SizedBox(
+                    key: itemKeyBuilder(item.id),
+                    width: cardWidth,
+                    child: _PortfolioCard(item: item),
+                  ),
               ],
             );
           },
