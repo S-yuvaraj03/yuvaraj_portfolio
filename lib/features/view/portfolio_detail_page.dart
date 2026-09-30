@@ -334,7 +334,7 @@ class _ProjectContext extends StatelessWidget {
       'sbi-yono' => const (
         'Production / FinTech',
         'UPI & Bill Payment',
-        'Flutter • MobX • REST APIs • Clean Architecture',
+        'Flutter • MobX • REST APIs • MVVM',
       ),
       'pos' => const (
         'Personal product',
